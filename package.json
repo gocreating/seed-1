@@ -1,0 +1,25 @@
+{
+  "name": "seed",
+  "version": "1.0.0",
+  "description": "A flexible and scalable suite for building modern websites, using nodejs with express",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gocreating/seed.git"
+  },
+  "keywords": [
+    "seed",
+    "project",
+    "node",
+    "express"
+  ],
+  "author": "NCTU-CS",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gocreating/seed/issues"
+  },
+  "homepage": "https://github.com/gocreating/seed"
+}
