@@ -10,6 +10,15 @@ Install nodejs packages
 $ npm install
 ```
 
+> ### Requirements
+> If you haven't installed bower and gulp, please install them globally now
+```
+$ npm install -g bower
+$ npm install -g gulp
+```
+> Then you can use the CLI operations
+
+
 Install front-end packages
 
 ```
