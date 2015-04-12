@@ -1,12 +1,12 @@
 module.exports = {
   home: {
-    get: function(req, res){
-      res.render('home');
+    get: function(req, res) {
+      res.render('general/home');
     }
   },
   about: {
     get: function(req, res) {
-      res.render('about');
+      res.render('general/about');
     }
   }
 };

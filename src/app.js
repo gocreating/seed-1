@@ -83,22 +83,21 @@ app.use(function(err, req, res, next) {
  */
 
 var urlMapping = require('./routes');
+var methods = ['get', 'post', 'put', 'delete'];
 for (var path in urlMapping) {
   var action = urlMapping[path];
-
   var routeChain = app.route(path);
-  if (action.get !== undefined) {
-    routeChain.get(action.get);
-  }
-  if (action.post !== undefined) {
-    routeChain.post(action.post);
-  }
-  if (action.put !== undefined) {
-    routeChain.put(action.put);
-  }
-  if (action.delete !== undefined) {
-    routeChain.delete(action.delete);
-  }
+  methods.forEach(function(method) {
+    if (action[method] !== undefined) {
+      if (action[method] instanceof Array) {
+        action[method].forEach(function(middleware) {
+          routeChain[method](middleware);
+        });
+      } else {
+        routeChain[method](action[method]);
+      }
+    }
+  });
 };
 
 // 404 not found
