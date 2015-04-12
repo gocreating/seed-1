@@ -3,7 +3,7 @@
  */
 
 // middlewares
-var expressLayouts = require('express-ejs-layouts');
+// var expressLayouts = require('express-ejs-layouts');
 var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -18,7 +18,7 @@ var http = require('http');
 var https = require('https');
 
 // other modules
-var SessionStore = require('express-mysql-session'); // Store session in mysql database
+// var SessionStore = require('express-mysql-session'); // Store session in mysql database
 var fs = require("fs"); // To read ssl key and cert
 var passport = require('passport');
 
@@ -31,12 +31,12 @@ var app = express();
 // view engine setup
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
-app.set('layout', 'layout/main')
-app.use(expressLayouts);
+// app.set('layout', 'layout/main')
+// app.use(expressLayouts);
 
 // server static file
-app.use(express.static(__dirname + '/public'));
-app.use(favicon(__dirname + '/public/assets/img/favicon.ico'));
+app.use(express.static(__dirname + '/assets'));
+app.use(favicon(__dirname + '/assets/favicon.ico'));
 
 // logger
 app.use(morgan('dev'));
@@ -82,14 +82,23 @@ app.use(function(err, req, res, next) {
  * Routing and Validation
  */
 
-app.use('/', require('./routes/index'));
-app.use('/api/user', require('./routes/user'));
+// app.use('/', require('./routes/index'));
+// app.use('/api/user', require('./routes/user'));
+var router = express.Router();
+router.get('/', function(req, res, next) {
+  console.log(__dirname);
+  res.render('test');
+});
+
+app.use('/', router);
 
 // 404 not found
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  // var err = new Error('Not Found');
+  // err.status = 404;
+  // next(err);
+  res.status(404);
+  res.send('not  found');
 });
 
 /**
