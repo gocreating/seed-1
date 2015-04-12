@@ -79,18 +79,27 @@ app.use(function(err, req, res, next) {
 // }
 
 /**
- * Routing and Validation
+ * Routing
  */
 
-// app.use('/', require('./routes/index'));
-// app.use('/api/user', require('./routes/user'));
-var router = express.Router();
-router.get('/', function(req, res, next) {
-  console.log(__dirname);
-  res.render('test');
-});
+var urlMapping = require('./routes');
+for (var path in urlMapping) {
+  var action = urlMapping[path];
 
-app.use('/', router);
+  var routeChain = app.route(path);
+  if (action.get !== undefined) {
+    routeChain.get(action.get);
+  }
+  if (action.post !== undefined) {
+    routeChain.post(action.post);
+  }
+  if (action.put !== undefined) {
+    routeChain.put(action.put);
+  }
+  if (action.delete !== undefined) {
+    routeChain.delete(action.delete);
+  }
+};
 
 // 404 not found
 app.use(function(req, res, next) {
