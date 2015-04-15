@@ -28,9 +28,12 @@
     "ejs": "~2.1.4",
     "express": "^4.12.3",
     "express-session": "^1.10.2",
+    "mongodb": "^2.0.27",
     "morgan": "~1.5.1",
+    "orm": "^2.1.24",
     "passport": "^0.2.1",
-    "serve-favicon": "~2.2.0"
+    "serve-favicon": "~2.2.0",
+    "sqlite3": "^3.0.5"
   },
   "devDependencies": {
     "del": "^1.1.1",

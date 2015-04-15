@@ -7,5 +7,6 @@ module.exports = {
   '/user/register': User.register,
   '/user/login':    User.login,
   '/user/logout':   User.logout,
-  '/user/profile':  User.profile
+  '/user/profile':  User.profile,
+  '/test':          User.test,
 };

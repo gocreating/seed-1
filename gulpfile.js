@@ -89,6 +89,19 @@ gulp.task('watch', function() {
   // gulp.watch(['build/debug/**']).on('change', livereload.changed);
 });
 
+// Synchronize database
+gulp.task('syncdb', function() {
+  var orm = require("orm");
+  orm.connect("sqlite://db.sqlite", function (err, db) {
+    if (err) {
+      console.log('Cannot connect to database');
+      throw err;
+    }
+    db.sync(function() {
+    });
+  });
+});
+
 // Default task
 gulp.task('default', ['clean'], function() {
     gulp.start('nodejs', 'styles', 'scripts', 'images', 'watch');

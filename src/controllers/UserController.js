@@ -44,5 +44,11 @@ module.exports = {
         res.render('user/profile');
       }
     ]
+  },
+  test: {
+    get: function(req, res) {
+      var Person = require('../models/testmodel');
+      res.send('nothing');
+    }
   }
 };
