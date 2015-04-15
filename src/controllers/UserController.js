@@ -1,54 +1,23 @@
-// var account = {
-//   username: 'admin',
-//   password: 'admin',
-//   isAuth: false
-// };
-var isAuth = false;
-
-var loginRequired = function(req, res, next) {
-  if (isAuth) {
-    next();
-  } else {
-    res.render('error/401');
-  }
-};
-
 module.exports = {
-  register: {
-    get: function(req, res) {
-      res.render('user/register');
-    },
-    post: function(req, res) {
-      res.redirect('/home');
-    }
+  register: function(req, res) {
+    res.render('user/register');
   },
   login: {
     get: function(req, res) {
       res.render('user/login');
     },
     post: function(req, res) {
-      isAuth = true;
       res.redirect('/user/profile');
     }
   },
-  logout: {
-    get: function(req, res) {
-      isAuth = false;
-      res.redirect('/');
-    }
+  logout: function(req, res) {
+    res.redirect('/');
   },
-  profile: {
-    get: [
-      loginRequired,
-      function(req, res) {
-        res.render('user/profile');
-      }
-    ]
+  profile: function(req, res) {
+    res.render('user/profile');
   },
-  test: {
-    get: function(req, res) {
-      var Person = require('../models/testmodel');
-      res.send('nothing');
-    }
+  test: function(req, res) {
+    // var Person = require('../models/testmodel');
+    res.send('nothing');
   }
 };
