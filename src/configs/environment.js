@@ -12,7 +12,7 @@ var models   = require('../models/');
 
 module.exports = function(app) {
   // view engine setup
-  app.set('views', __dirname + '/../views');
+  app.set('views', __dirname + '\/..\/views');
   app.set('view engine', 'ejs');
   // app.set('layout', 'layout/main')
   // app.use(expressLayouts);

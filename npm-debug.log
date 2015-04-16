@@ -1,0 +1,149 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'gulp@4',
+1 verbose cli   '--save-dev' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.35
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 verbose readDependencies using package.json deps
+6 verbose cache add [ 'gulp@4', null ]
+7 verbose cache add name=undefined spec="gulp@4" args=["gulp@4",null]
+8 verbose parsed url { protocol: null,
+8 verbose parsed url   slashes: null,
+8 verbose parsed url   auth: null,
+8 verbose parsed url   host: null,
+8 verbose parsed url   port: null,
+8 verbose parsed url   hostname: null,
+8 verbose parsed url   hash: null,
+8 verbose parsed url   search: null,
+8 verbose parsed url   query: null,
+8 verbose parsed url   pathname: 'gulp@4',
+8 verbose parsed url   path: 'gulp@4',
+8 verbose parsed url   href: 'gulp@4' }
+9 verbose cache add name="gulp" spec="4" args=["gulp","4"]
+10 verbose parsed url { protocol: null,
+10 verbose parsed url   slashes: null,
+10 verbose parsed url   auth: null,
+10 verbose parsed url   host: null,
+10 verbose parsed url   port: null,
+10 verbose parsed url   hostname: null,
+10 verbose parsed url   hash: null,
+10 verbose parsed url   search: null,
+10 verbose parsed url   query: null,
+10 verbose parsed url   pathname: '4',
+10 verbose parsed url   path: '4',
+10 verbose parsed url   href: '4' }
+11 verbose addNamed [ 'gulp', '4' ]
+12 verbose addNamed [ null, '>=4.0.0-0 <5.0.0-0' ]
+13 silly lockFile 71dfda4b-gulp-4 gulp@4
+14 verbose lock gulp@4 C:\Users\Creating\AppData\Roaming\npm-cache\71dfda4b-gulp-4.lock
+15 silly addNameRange { name: 'gulp', range: '>=4.0.0-0 <5.0.0-0', hasData: false }
+16 verbose request where is /gulp
+17 verbose request registry https://registry.npmjs.org/
+18 verbose request id b8edc8553ecea325
+19 verbose url raw /gulp
+20 verbose url resolving [ 'https://registry.npmjs.org/', './gulp' ]
+21 verbose url resolved https://registry.npmjs.org/gulp
+22 verbose request where is https://registry.npmjs.org/gulp
+23 info trying registry request attempt 1 at 03:34:59
+24 verbose etag "AZGIS71J4A7QQ4KI55E8IKA7N"
+25 http GET https://registry.npmjs.org/gulp
+26 http 304 https://registry.npmjs.org/gulp
+27 silly registry.get cb [ 304,
+27 silly registry.get   { date: 'Thu, 16 Apr 2015 19:35:02 GMT',
+27 silly registry.get     server: 'Apache',
+27 silly registry.get     via: '1.1 varnish',
+27 silly registry.get     'last-modified': 'Thu, 16 Apr 2015 19:35:03 GMT',
+27 silly registry.get     'cache-control': 'max-age=60',
+27 silly registry.get     etag: '"AZGIS71J4A7QQ4KI55E8IKA7N"',
+27 silly registry.get     age: '0',
+27 silly registry.get     'x-served-by': 'cache-nrt6130-NRT',
+27 silly registry.get     'x-cache': 'HIT',
+27 silly registry.get     'x-cache-hits': '1',
+27 silly registry.get     'x-timer': 'S1429212902.705948,VS0,VE719',
+27 silly registry.get     vary: 'Accept',
+27 silly registry.get     'content-length': '0',
+27 silly registry.get     'keep-alive': 'timeout=10, max=50',
+27 silly registry.get     connection: 'Keep-Alive' } ]
+28 verbose etag https://registry.npmjs.org/gulp from cache
+29 silly addNameRange number 2 { name: 'gulp', range: '>=4.0.0-0 <5.0.0-0', hasData: true }
+30 silly addNameRange versions [ 'gulp',
+30 silly addNameRange   [ '0.0.1',
+30 silly addNameRange     '0.0.2',
+30 silly addNameRange     '0.0.3',
+30 silly addNameRange     '0.0.4',
+30 silly addNameRange     '0.0.5',
+30 silly addNameRange     '0.0.7',
+30 silly addNameRange     '0.0.8',
+30 silly addNameRange     '0.0.9',
+30 silly addNameRange     '0.1.0',
+30 silly addNameRange     '0.2.0',
+30 silly addNameRange     '1.0.0',
+30 silly addNameRange     '1.1.0',
+30 silly addNameRange     '1.2.0',
+30 silly addNameRange     '1.2.1',
+30 silly addNameRange     '2.0.0',
+30 silly addNameRange     '2.0.1',
+30 silly addNameRange     '2.1.0',
+30 silly addNameRange     '2.2.0',
+30 silly addNameRange     '2.3.0',
+30 silly addNameRange     '2.4.0',
+30 silly addNameRange     '2.4.1',
+30 silly addNameRange     '2.6.0',
+30 silly addNameRange     '2.6.1',
+30 silly addNameRange     '2.7.0',
+30 silly addNameRange     '3.0.0',
+30 silly addNameRange     '3.1.1',
+30 silly addNameRange     '3.1.2',
+30 silly addNameRange     '3.1.3',
+30 silly addNameRange     '3.1.4',
+30 silly addNameRange     '3.2.0',
+30 silly addNameRange     '3.2.1',
+30 silly addNameRange     '3.2.2',
+30 silly addNameRange     '3.2.3',
+30 silly addNameRange     '3.2.4',
+30 silly addNameRange     '3.2.5',
+30 silly addNameRange     '3.3.0',
+30 silly addNameRange     '3.3.1',
+30 silly addNameRange     '3.3.2',
+30 silly addNameRange     '3.3.4',
+30 silly addNameRange     '3.4.0',
+30 silly addNameRange     '3.5.0',
+30 silly addNameRange     '3.5.1',
+30 silly addNameRange     '3.5.2',
+30 silly addNameRange     '3.5.5',
+30 silly addNameRange     '3.5.6',
+30 silly addNameRange     '3.6.0',
+30 silly addNameRange     '3.6.1',
+30 silly addNameRange     '3.6.2',
+30 silly addNameRange     '3.7.0',
+30 silly addNameRange     '3.8.0',
+30 silly addNameRange     '3.8.1',
+30 silly addNameRange     '3.8.2',
+30 silly addNameRange     '3.8.3',
+30 silly addNameRange     '3.8.4',
+30 silly addNameRange     '3.8.5',
+30 silly addNameRange     '3.8.6',
+30 silly addNameRange     '3.8.7',
+30 silly addNameRange     '3.8.8',
+30 silly addNameRange     '3.8.9',
+30 silly addNameRange     '3.8.10',
+30 silly addNameRange     '3.8.11' ] ]
+31 silly lockFile 71dfda4b-gulp-4 gulp@4
+32 silly lockFile 71dfda4b-gulp-4 gulp@4
+33 error notarget No compatible version found: gulp@'>=4.0.0-0 <5.0.0-0'
+33 error notarget Valid install targets:
+33 error notarget ["0.0.1","0.0.2","0.0.3","0.0.4","0.0.5","0.0.7","0.0.8","0.0.9","0.1.0","0.2.0","1.0.0","1.1.0","1.2.0","1.2.1","2.0.0","2.0.1","2.1.0","2.2.0","2.3.0","2.4.0","2.4.1","2.6.0","2.6.1","2.7.0","3.0.0","3.1.1","3.1.2","3.1.3","3.1.4","3.2.0","3.2.1","3.2.2","3.2.3","3.2.4","3.2.5","3.3.0","3.3.1","3.3.2","3.3.4","3.4.0","3.5.0","3.5.1","3.5.2","3.5.5","3.5.6","3.6.0","3.6.1","3.6.2","3.7.0","3.8.0","3.8.1","3.8.2","3.8.3","3.8.4","3.8.5","3.8.6","3.8.7","3.8.8","3.8.9","3.8.10","3.8.11"]
+33 error notarget
+33 error notarget This is most likely not a problem with npm itself.
+33 error notarget In most cases you or one of your dependencies are requesting
+33 error notarget a package version that doesn't exist.
+34 error System Windows_NT 6.2.9200
+35 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "gulp@4" "--save-dev"
+36 error cwd D:\Development\seed
+37 error node -v v0.10.35
+38 error npm -v 1.4.28
+39 error code ETARGET
+40 verbose exit [ 1, true ]

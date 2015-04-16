@@ -1,19 +1,39 @@
 /**
  * Load plugins
  */
-var gulp = require('gulp'),
-    less = require('gulp-less'),
+var gulp         = require('gulp'),
+    less         = require('gulp-less'),
     autoprefixer = require('gulp-autoprefixer'),
-    minifycss = require('gulp-minify-css'),
-    jshint = require('gulp-jshint'),
-    uglify = require('gulp-uglify'),
-    // imagemin = require('gulp-imagemin'),
-    rename = require('gulp-rename'),
-    concat = require('gulp-concat'),
-    browserSync = require('browser-sync'),
-    nodemon = require('gulp-nodemon'),
-    changed = require('gulp-changed'),
-    del = require('del');
+    minifycss    = require('gulp-minify-css'),
+    jshint       = require('gulp-jshint'),
+    uglify       = require('gulp-uglify'),
+    // imagemin  = require('gulp-imagemin'),
+    rename       = require('gulp-rename'),
+    concat       = require('gulp-concat'),
+    browserSync  = require('browser-sync'),
+    nodemon      = require('gulp-nodemon'),
+    changed      = require('gulp-changed'),
+    del          = require('del'),
+    notify       = require("gulp-notify"),
+    browserify   = require('browserify'),
+    source       = require('vinyl-source-stream'),
+    reactify     = require('reactify');
+
+/**
+ * error handler
+ */
+var handleErrors = function() {
+  var args = Array.prototype.slice.call(arguments);
+
+  // Send error to notification center with gulp-notify
+  notify.onError({
+    title: "Compile Error",
+    message: "<%= error.message %>"
+  }).apply(this, args);
+
+  // Keep gulp from hanging on this task
+  this.emit('end');
+};
 
 /**
  * clean the build files
@@ -29,11 +49,34 @@ gulp.task('styles', function() {
   return gulp.src('src/assets/less/main.less')
     .pipe(changed('build/debug/assets/css'))
     .pipe(less())
+    .on('error', handleErrors)
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(gulp.dest('build/debug/assets/css'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(minifycss())
     .pipe(gulp.dest('build/debug/assets/css'));
+});
+
+gulp.task('material-ui', function() {
+  gulp.src('src/assets/less/material-ui.less')
+    .pipe(less())
+    .on('error', handleErrors)
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(gulp.dest('build/debug/assets/css'))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(minifycss())
+    .pipe(gulp.dest('build/debug/assets/css'));
+
+  browserify({
+    debug : true,
+    entries: './src/assets/js/app.jsx',
+    transform: [reactify]
+  })
+  .bundle()
+  .pipe(source('app.js')) //this converts to stream
+   //do all processing here.
+   //like uglification and so on.
+  .pipe(gulp.dest('build/debug/assets/js'));
 });
  
 /**
@@ -50,7 +93,7 @@ gulp.task('scripts', function() {
     .pipe(uglify())
     .pipe(gulp.dest('build/debug/assets/js'));
 });
- 
+
 /**
  * compressing images
  */
@@ -78,8 +121,9 @@ gulp.task('watch', function() {
   // watch .less files
   gulp.watch('src/assets/less/**/*.less', ['styles']);
  
-  // watch .js files
+  // watch .js/.jsx files
   gulp.watch('src/assets/js/**/*.js', ['scripts']);
+  gulp.watch('src/assets/js/**/*.jsx', ['material-ui']);
  
   // watch image files
   gulp.watch('src/assets/img/**/*', ['images']);
@@ -88,11 +132,10 @@ gulp.task('watch', function() {
   gulp.watch(['src/**/*', '!src/assets/**/*'], ['copy']);
 });
 
-
 /**
  * run the server
  */
-gulp.task('nodemon', function (cb) {
+gulp.task('nodemon', ['copy'], function (cb) {
   return nodemon({
     script: 'build/debug/app.js'
   }).on('start', function () {
@@ -132,5 +175,5 @@ gulp.task('syncdb', function() {
  * default task
  */
 gulp.task('default', ['clean'], function() {
-    gulp.start('copy', 'styles', 'scripts', 'images', 'watch', 'browser-sync');
+    gulp.start('styles', 'material-ui', 'scripts', 'images', 'watch', 'browser-sync');
 });

@@ -1,0 +1,20 @@
+{
+  "name": "seed",
+  "version": "0.0.0",
+  "homepage": "https://github.com/gocreating/seed",
+  "authors": [
+    "gocreating <gocreating@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/assets/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "react": "~0.13.1"
+  }
+}
