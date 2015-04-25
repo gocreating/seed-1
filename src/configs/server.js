@@ -8,7 +8,7 @@ module.exports = function(app) {
   http
     .createServer(app)
     .listen(3000, function(){
-      console.log('HTTP  server listening on port ' + 4000);
+      console.log('HTTP  server listening on port ' + 3000);
     });
 
   // https server

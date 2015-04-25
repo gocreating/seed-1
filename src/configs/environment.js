@@ -1,5 +1,5 @@
 var express  = require('express');
-// var expressLayouts = require('express-ejs-layouts');
+var expressLayouts = require('express-ejs-layouts');
 var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
@@ -14,8 +14,8 @@ module.exports = function(app) {
   // view engine setup
   app.set('views', __dirname + '\/..\/views');
   app.set('view engine', 'ejs');
-  // app.set('layout', 'layout/main')
-  // app.use(expressLayouts);
+  app.set('layout', 'layout/main');
+  app.use(expressLayouts);
 
   // serve static files
   app.use(express.static(__dirname + '/../assets'));
