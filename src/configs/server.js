@@ -7,8 +7,13 @@ module.exports = function(app) {
   // http server
   http
     .createServer(app)
+<<<<<<< HEAD
+    .listen(9876, function(){
+      console.log('HTTP  server listening on port ' + 4000);
+=======
     .listen(3000, function(){
       console.log('HTTP  server listening on port ' + 3000);
+>>>>>>> origin/master
     });
 
   // https server

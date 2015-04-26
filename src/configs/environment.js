@@ -62,10 +62,10 @@ module.exports = function(app) {
   // error handling
   app.use(function(err, req, res, next) {
     res.status(err.status || 500);
-    res.render('error/index', {
+    /*res.render('error/index', {
       message: err.message,
       error: err,
       layout: false
-    });
+    });*/
   });
 };
