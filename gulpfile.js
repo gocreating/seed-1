@@ -148,7 +148,7 @@ gulp.task('nodemon', ['copy'], function (cb) {
  */
 gulp.task('browser-sync', ['nodemon'], function() {
   browserSync.init(null, {
-    proxy: 'localhost:3000',
+    proxy: 'localhost:9876',
     files: ['build/debug/**/*.*'],
     port: 7000,
   });
