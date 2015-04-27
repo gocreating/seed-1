@@ -10,3 +10,6 @@ sftp-configuration.json
 # Build files
 build/debug
 build/release
+
+# Database
+db.sqlite
