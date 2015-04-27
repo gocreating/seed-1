@@ -13,3 +13,7 @@ build/release
 
 # Database
 db.sqlite
+
+# Secret
+github
+github.pub

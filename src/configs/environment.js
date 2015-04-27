@@ -8,8 +8,6 @@ var session = require('express-session');
 var passport = require('passport');
 // var SessionStore = require('express-mysql-session'); // Store session in mysql database
 
-var models   = require('../models/');
-
 module.exports = function(app) {
   // view engine setup
   app.set('views', __dirname + '\/..\/views');
@@ -46,18 +44,6 @@ module.exports = function(app) {
   // authentication
   app.use(passport.initialize());
   app.use(passport.session());
-
-  // database
-  app.use(function (req, res, next) {
-    models(function (err, db) {
-      if (err) return next(err);
-
-      req.models = db.models;
-      req.db     = db;
-
-      return next();
-    });
-  });
 
   // error handling
   app.use(function(err, req, res, next) {
