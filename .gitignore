@@ -17,3 +17,6 @@ db.sqlite
 # Secret
 github
 github.pub
+
+# Log
+*.log
