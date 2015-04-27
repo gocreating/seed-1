@@ -2,40 +2,42 @@
 
 A flexible and scalable suite for building modern websites, using nodejs with express.
 
-## Getting started
+## Requirements
 
-Install nodejs packages
+You must install `NodeJS` as the whole programming engine. We use npm and bower as package manager, and gulp as building automation tool. The npm is already equipped with NodeJS, so just install `bower` and `gulp` as follows.
 
-```
-$ npm install
-```
-
-> ### Requirements
-> If you haven't installed bower and gulp, please install them globally now
 ```
 $ npm install -g bower
 $ npm install -g gulp
 ```
-> Then you can use the CLI operations
 
+Then you can start using the CLI operations
 
-Install front-end packages
+## Getting started
 
-```
-$ bower install
-```
+1. Install nodejs packages
 
-Run as debug mode
+   ```
+   $ npm install
+   ```
 
-```
-$ gulp debug
-```
+2. Install front-end packages
 
-Or as production mode
+   ```
+   $ bower install
+   ```
 
-```
-$ gulp start
-```
+3. Synchronize database
+
+   ```
+   $ gulp syncdb
+   ```
+
+4. Run as debug/production mode
+
+   ```
+   $ gulp dev/prod
+   ```
 
 ## Documentation
 
