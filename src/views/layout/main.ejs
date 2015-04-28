@@ -12,14 +12,23 @@
 </head>
 <body>
   <nav>
-    <ul>
-      <li><a href="/">Home</a></li>
-      <li><a href="/about">About</a></li>
-      <li><a href="/user/register">Register</a></li>
-      <li><a href="/user/login">Login</a></li>
-      <li><a href="/user/profile">Profile</a></li>
-      <li><a href="/user/logout">Logout</a></li>
-    </ul>
+    <div>
+      <h3>General</h3>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h3>User</h3>
+      <ul>
+        <li><a href="/user/register">Register</a></li>
+        <li><a href="/user/login">Login</a></li>
+        <li><a href="/user/profile">Profile</a></li>
+        <li><a href="/user/logout">Logout</a></li>
+      </ul>
+    </div>
   </nav>
   <hr>
   <%-defineContent('body')%>
