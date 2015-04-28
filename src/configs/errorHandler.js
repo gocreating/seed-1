@@ -6,6 +6,10 @@ module.exports = function(app) {
       case 'DatabaseError':
         console.log('Database Error');
         break;
+      case 'PageNotFoundError':
+        console.log('Page not found');
+        res.send('404');
+        return;
       default:
         console.log('Unknown Error');
     }
