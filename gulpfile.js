@@ -160,7 +160,7 @@ gulp.task('browser-sync', ['nodemon'], function() {
 gulp.task('syncdb', function() {
   var models = require('./src/models/');
   models(function (err, db) {
-    if (err) return notify('Cannot connect to database');
+    if (err) return gulp.src('').pipe(notify('[Sync Fail] Cannot connect to database'));
     db.sync(function() {    
       // add dummy data here
     });
@@ -170,6 +170,20 @@ gulp.task('syncdb', function() {
 /**
  * default task
  */
-gulp.task('default', ['clean'], function() {
-    gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'watch', 'browser-sync');
+gulp.task('default', function() {
+  gulp.start('dev');
+});
+
+/**
+ * Development/Debug mode
+ */
+gulp.task('dev', ['clean'], function() {
+  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'watch', 'browser-sync');
+});
+
+/**
+ * Deployment/Production mode
+ */
+gulp.task('prod', function() {
+  gulp.src('').pipe(notify('Production mode is currently not supported'));
 });
