@@ -1,4 +1,5 @@
 module.exports = {
-  // db: 'mongodb://root@localhost/seed' // "sqlite://db.sqlite"
+  // connection string of mongodb: 'mongodb://root@localhost/seed'
+  // connection string of sqlite: 'sqlite://db.sqlite'
   db: 'sqlite://db.sqlite'
 };

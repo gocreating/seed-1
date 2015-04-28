@@ -156,17 +156,13 @@ gulp.task('browser-sync', ['nodemon'], function() {
 
 /**
  * synchronize database
- * however, this task is still not working
- * please ignore it
  */
 gulp.task('syncdb', function() {
-  var orm = require("orm");
-  orm.connect("sqlite://db.sqlite", function (err, db) {
-    if (err) {
-      console.log('Cannot connect to database');
-      throw err;
-    }
-    db.sync(function() {
+  var models = require('./src/models/');
+  models(function (err, db) {
+    if (err) return notify('Cannot connect to database');
+    db.sync(function() {    
+      // add dummy data here
     });
   });
 });
