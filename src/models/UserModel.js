@@ -3,7 +3,7 @@ var DatabaseError = require('../errors/database');
 module.exports = function(orm, db) {
   var User = db.define('user', {
     username:   {type: 'text', size: 25},
-    password:   {type: 'text', size: 128}, // the password is a hash value
+    password:   {type: 'text', size: 32}, // the password is a hash value
     email:      {type: 'text', size: 62},
     group:      {type: 'boolean'},
     photo:      {type: 'text', size: 100}, // stores the file path
@@ -26,6 +26,17 @@ module.exports = function(orm, db) {
       if (isExist) {
         return cb(null, true, null);
       } else {
+        // hashing the password
+        var crypto = require('crypto');
+        var passwordHash = newUser.password;
+        var recursiveLevel = 5;
+        while (recursiveLevel) {
+          passwordHash = crypto.createHash('md5').update(passwordHash).digest('hex');
+          recursiveLevel -= 1;
+        }
+        newUser.password = passwordHash;
+
+        // create new user
         User.create(newUser, function(err, user) {
           if (err) return cb(err, true, null);
           return cb(null, false, user);
