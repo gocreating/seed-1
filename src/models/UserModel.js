@@ -1,3 +1,5 @@
+var DatabaseError = require('../errors/database');
+
 module.exports = function(orm, db) {
   var User = db.define('user', {
     username:   {type: 'text', size: 25},
@@ -20,13 +22,13 @@ module.exports = function(orm, db) {
    */
   User.register = function(newUser, cb) {
     User.exists({username: newUser.username}, function(err, isExist) {
-      if (err) return cb(err, true, null);
+      if (err) return cb(new DatabaseError());
       if (isExist) {
         return cb(null, true, null);
       } else {
-        User.create(newUser, function(err, results) {
+        User.create(newUser, function(err, user) {
           if (err) return cb(err, true, null);
-          return cb(null, false, results);
+          return cb(null, false, user);
         });
       }
     });

@@ -21,10 +21,6 @@ module.exports = {
           res.redirect('/user/login');
         }
       });
-      // req.models.user.create(newUser, function(err, results) {
-      //   console.log('new user');
-      //   res.redirect('/user/login');
-      // });
     }
   },
   login: {

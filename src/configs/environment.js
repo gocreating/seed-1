@@ -44,14 +44,4 @@ module.exports = function(app) {
   // authentication
   app.use(passport.initialize());
   app.use(passport.session());
-
-  // error handling
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    /*res.render('error/index', {
-      message: err.message,
-      error: err,
-      layout: false
-    });*/
-  });
 };
