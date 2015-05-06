@@ -57,27 +57,27 @@ gulp.task('styles', function() {
     .pipe(gulp.dest('build/debug/assets/css'));
 });
 
-// gulp.task('material-ui', function() {
-//   gulp.src('src/assets/less/material-ui.less')
-//     .pipe(less())
-//     .on('error', handleErrors)
-//     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-//     .pipe(gulp.dest('build/debug/assets/css'))
-//     .pipe(rename({ suffix: '.min' }))
-//     .pipe(minifycss())
-//     .pipe(gulp.dest('build/debug/assets/css'));
+gulp.task('material-ui', function() {
+  gulp.src('src/assets/less/material-ui.less')
+    .pipe(less())
+    .on('error', handleErrors)
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(gulp.dest('build/debug/assets/css'))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(minifycss())
+    .pipe(gulp.dest('build/debug/assets/css'));
 
-//   browserify({
-//     debug : true,
-//     entries: './src/assets/js/app.jsx',
-//     transform: [reactify]
-//   })
-//   .bundle()
-//   .pipe(source('app.js'))
-//    //do all processing here.
-//    //like uglification and so on.
-//   .pipe(gulp.dest('build/debug/assets/js'));
-// });
+  browserify({
+    debug : true,
+    entries: './src/assets/js/app.jsx',
+    transform: [reactify]
+  })
+  .bundle()
+  .pipe(source('app.js'))
+   //do all processing here.
+   //like uglification and so on.
+  .pipe(gulp.dest('build/debug/assets/js'));
+});
  
 /**
  * minify front-end .js files
@@ -123,7 +123,7 @@ gulp.task('watch', function() {
  
   // watch .js/.jsx files
   gulp.watch('src/assets/js/**/*.js', ['scripts']);
-  // gulp.watch('src/assets/js/**/*.jsx', ['material-ui']);
+  gulp.watch('src/assets/js/**/*.jsx', ['material-ui']);
  
   // watch image files
   gulp.watch('src/assets/img/**/*', ['images']);
@@ -178,7 +178,7 @@ gulp.task('default', function() {
  * Development/Debug mode
  */
 gulp.task('dev', ['clean'], function() {
-  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'watch', 'browser-sync');
+  gulp.start('styles', 'material-ui', 'scripts', 'images', 'watch', 'browser-sync');
 });
 
 /**
