@@ -123,7 +123,7 @@ gulp.task('watch', function() {
  
   // watch .js/.jsx files
   gulp.watch('src/assets/js/**/*.js', ['scripts']);
-  gulp.watch('src/assets/js/**/*.jsx', ['material-ui']);
+  // gulp.watch('src/assets/js/**/*.jsx', ['material-ui']);
  
   // watch image files
   gulp.watch('src/assets/img/**/*', ['images']);
@@ -178,7 +178,7 @@ gulp.task('default', function() {
  * Development/Debug mode
  */
 gulp.task('dev', ['clean'], function() {
-  gulp.start('styles', 'material-ui', 'scripts', 'images', 'watch', 'browser-sync');
+  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'watch', 'browser-sync');
 });
 
 /**

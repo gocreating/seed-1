@@ -15,6 +15,10 @@ module.exports = function(app) {
   app.set('layout', 'layout/main');
   app.use(expressLayouts);
 
+  // app.set('views', __dirname + '/../views');
+  // app.set('view engine', 'jsx');
+  // app.engine('jsx', require('express-react-views').createEngine());
+
   // serve static files
   app.use(express.static(__dirname + '/../assets'));
   app.use(favicon(__dirname + '/../assets/favicon.ico'));

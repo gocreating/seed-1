@@ -28,6 +28,7 @@
     "ejs": "~2.1.4",
     "express": "^4.12.3",
     "express-ejs-layouts": "^1.1.0",
+    "express-react-views": "^0.8.0",
     "express-session": "^1.10.2",
     "material-ui": "^0.7.3",
     "mongodb": "^2.0.27",
