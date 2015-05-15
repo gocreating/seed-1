@@ -163,6 +163,17 @@ gulp.task('syncdb', function() {
     if (err) return gulp.src('').pipe(notify('[Sync Fail] Cannot connect to database'));
     db.sync(function() {    
       // add dummy data here
+      db.models.group.create({
+        name: 'default user'
+      }, function(err, group) {
+
+      });
+
+      db.models.group.create({
+        name: 'vip user'
+      }, function(err, group) {
+
+      });
     });
   });
 });

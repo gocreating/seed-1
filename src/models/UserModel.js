@@ -1,6 +1,8 @@
 var DatabaseError = require('../errors/database');
 
 module.exports = function(orm, db) {
+  // var Group = require('./GroupModel')(orm, db);
+  var Group = db.models.group;
   var User = db.define('user', {
     username:   {type: 'text', size: 25},
     password:   {type: 'text', size: 32}, // the password is a hash value
@@ -12,6 +14,8 @@ module.exports = function(orm, db) {
     openId:     {type: 'integer'},
     socialData: {type: 'object'},
   });
+
+  User.hasOne('group', Group);
 
   /**
    * Register a new user
@@ -39,7 +43,12 @@ module.exports = function(orm, db) {
         // create new user
         User.create(newUser, function(err, user) {
           if (err) return cb(err, true, null);
-          return cb(null, false, user);
+
+          Group.find({name: 'default user'}).first(function(err, group) {
+            user.setGroup(group, function(err) {
+              return cb(null, false, user);
+            });
+          });          
         });
       }
     });
