@@ -24,8 +24,7 @@ module.exports = function(app) {
     } else {
       res.render('error/index', {
         message: err.message,
-        stack: err.stack,
-        layout: false
+        stack: err.stack
       });
     }
   });

@@ -10,14 +10,9 @@ var passport = require('passport');
 
 module.exports = function(app) {
   // view engine setup
-  app.set('views', __dirname + '\/..\/views');
-  app.set('view engine', 'ejs');
-  app.set('layout', 'layout/main');
-  app.use(expressLayouts);
-
-  // app.set('views', __dirname + '/../views');
-  // app.set('view engine', 'jsx');
-  // app.engine('jsx', require('express-react-views').createEngine());
+  app.set('views', __dirname + '/../views');
+  app.set('view engine', 'jsx');
+  app.engine('jsx', require('express-react-views').createEngine());
 
   // serve static files
   app.use(express.static(__dirname + '/../assets'));
