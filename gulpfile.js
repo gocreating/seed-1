@@ -18,6 +18,7 @@ var gulp         = require('gulp'),
     browserify   = require('browserify'),
     source       = require('vinyl-source-stream'),
     reactify     = require('reactify');
+    preprocess   = require('gulp-preprocess');
 
 /**
  * error handler
@@ -38,33 +39,41 @@ var handleErrors = function() {
 /**
  * clean the build files
  */
-gulp.task('clean', function(cb) {
+gulp.task('clean-dev', function(cb) {
     del(['build/debug/'], cb);
+});
+
+gulp.task('clean', function(cb) {
+    del(['build/release/'], cb);
 });
 
 /**
  * compile .less files
  */
-gulp.task('styles', function() {
+gulp.task('styles-dev', function() {
   return gulp.src('src/assets/less/main.less')
     .pipe(changed('build/debug/assets/css'))
     .pipe(less())
     .on('error', handleErrors)
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest('build/debug/assets/css'))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(minifycss())
     .pipe(gulp.dest('build/debug/assets/css'));
 });
 
-gulp.task('material-ui', function() {
+gulp.task('styles', function() {
+  return gulp.src('src/assets/less/main.less')
+    .pipe(less())
+    .on('error', handleErrors)
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(minifycss())
+    .pipe(gulp.dest('build/release/assets/css'));
+});
+
+gulp.task('material-ui-dev', function() {
   gulp.src('src/assets/less/material-ui.less')
     .pipe(less())
     .on('error', handleErrors)
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest('build/debug/assets/css'))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(minifycss())
     .pipe(gulp.dest('build/debug/assets/css'));
 
   browserify({
@@ -78,41 +87,82 @@ gulp.task('material-ui', function() {
    //like uglification and so on.
   .pipe(gulp.dest('build/debug/assets/js'));
 });
+
+gulp.task('material-ui', function() {
+  gulp.src('src/assets/less/material-ui.less')
+    .pipe(less())
+    .on('error', handleErrors)
+    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(minifycss())
+    .pipe(gulp.dest('build/release/assets/css'));
+
+  browserify({
+    debug : true,
+    entries: './src/assets/js/app.jsx',
+    transform: [reactify]
+  })
+  .bundle()
+  .pipe(source('app.js'))
+   //do all processing here.
+   //like uglification and so on.
+  .pipe(gulp.dest('build/release/assets/js'));
+});
  
 /**
  * minify front-end .js files
  */
-gulp.task('scripts', function() {
+gulp.task('scripts-dev', function() {
   return gulp.src('src/assets/js/**/*.js')
     .pipe(changed('build/debug/assets/js'))
     // .pipe(jshint('.jshintrc'))
     // .pipe(jshint.reporter('default'))
     // .pipe(concat('main.js'))
-    .pipe(gulp.dest('build/debug/assets/js'))
+    .pipe(gulp.dest('build/debug/assets/js'));
+});
+
+gulp.task('scripts', function() {
+  return gulp.src('src/assets/js/**/*.js')
+    // .pipe(jshint('.jshintrc'))
+    // .pipe(jshint.reporter('default'))
+    // .pipe(concat('main.js'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
-    .pipe(gulp.dest('build/debug/assets/js'));
+    .pipe(gulp.dest('build/release/assets/js'));
 });
 
 /**
  * compressing images
  */
-gulp.task('images', function() {
+gulp.task('images-dev', function() {
   return gulp.src('src/assets/img/**/*')
     .pipe(changed('build/debug/assets/img'))
     // .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
     .pipe(gulp.dest('build/debug/assets/img'));
 });
  
+ gulp.task('images', function() {
+  return gulp.src('src/assets/img/**/*')
+    // .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+    .pipe(gulp.dest('build/release/assets/img'));
+});
 /**
  * copy files that does not need to be preprocessed,
  * like nodejs server files, controllers, models, etc.
  */
-gulp.task('copy', function() {
+gulp.task('copy-dev', function() {
   return gulp.src(['src/**/*', '!src/assets/'])
+    // .pipe(preprocess({context: { NODE_ENV: 'dev'}}))
     .pipe(changed('build/debug'))
     .pipe(gulp.dest('build/debug'));
 });
+
+gulp.task('copy', function() {
+  return gulp.src(['src/**/*', '!src/assets/'])
+    // .pipe(preprocess({context: { NODE_ENV: 'prod'}}))
+    .pipe(gulp.dest('build/release'));
+});
+
  
 /**
  * watch and reprocess files that changed
@@ -129,13 +179,13 @@ gulp.task('watch', function() {
   gulp.watch('src/assets/img/**/*', ['images']);
  
   // watch other files
-  gulp.watch(['src/**/*', '!src/assets/**/*'], ['copy']);
+  gulp.watch(['src/**/*', '!src/assets/**/*'], ['copy-dev']);
 });
 
 /**
  * run the server
  */
-gulp.task('nodemon', ['copy'], function (cb) {
+gulp.task('nodemon', ['copy-dev'], function (cb) {
   return nodemon({
     script: 'build/debug/app.js'
   }).on('start', function () {
@@ -188,13 +238,14 @@ gulp.task('default', function() {
 /**
  * Development/Debug mode
  */
-gulp.task('dev', ['clean'], function() {
-  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'watch', 'browser-sync');
+gulp.task('dev', ['clean-dev'], function() {
+  gulp.start('styles-dev', /*'material-ui',*/ 'scripts-dev', 'images-dev', 'watch', 'browser-sync');
 });
 
 /**
  * Deployment/Production mode
  */
-gulp.task('prod', function() {
-  gulp.src('').pipe(notify('Production mode is currently not supported'));
+gulp.task('prod', ['clean'], function() {
+  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'copy');
+  //gulp.src('').pipe(notify('Production mode is currently not supported'));
 });

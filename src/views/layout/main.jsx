@@ -11,7 +11,7 @@ var MainLayout = React.createClass({
       <html>        
         <head>
           <title>{this.props.title}</title>
-          <link rel="stylesheet" type="text/css" href="/css/main.css" />
+          <link rel="stylesheet" type="text/css" href="/css/main.min.css" />
         </head>
         <body>
           <nav>
