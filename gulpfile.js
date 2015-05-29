@@ -17,6 +17,7 @@ var gulp         = require('gulp'),
     notify       = require("gulp-notify"),
     browserify   = require('browserify'),
     source       = require('vinyl-source-stream'),
+    buffer       = require('vinyl-buffer'),
     reactify     = require('reactify');
 
 /**
@@ -74,8 +75,10 @@ gulp.task('material-ui', function() {
   })
   .bundle()
   .pipe(source('app.js'))
+  .pipe(buffer())
    //do all processing here.
    //like uglification and so on.
+  .pipe(uglify())
   .pipe(gulp.dest('build/debug/assets/js'));
 });
  
@@ -189,7 +192,7 @@ gulp.task('default', function() {
  * Development/Debug mode
  */
 gulp.task('dev', ['clean'], function() {
-  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'watch', 'browser-sync');
+  gulp.start('styles', 'material-ui', 'scripts', 'images', 'watch', 'browser-sync');
 });
 
 /**

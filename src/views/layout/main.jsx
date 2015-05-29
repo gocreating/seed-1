@@ -1,6 +1,18 @@
 var React = require('react');
+var mui = require('material-ui'),
+    RaisedButton = mui.RaisedButton,
+    FlatButton = mui.FlatButton;
+    Dialog = mui.Dialog;
 
-var MainLayout = React.createClass({
+var standardActions = [
+  { text: 'Cancel' },
+  { text: 'Submit', onClick: this._onDialogSubmit, ref: 'submit' }
+];
+
+module.exports = React.createClass({
+  handleClick: function() {
+    alert(this.props);
+  },
   getDefaultProps: function() {
     return {
       title: 'Seed'
@@ -12,8 +24,12 @@ var MainLayout = React.createClass({
         <head>
           <title>{this.props.title}</title>
           <link rel="stylesheet" type="text/css" href="/css/main.css" />
+          <link rel="stylesheet" type="text/css" href="/css/material-ui.css" />
         </head>
         <body>
+          <RaisedButton label="Default" />
+          <FlatButton onClick={this.handleClick} label="Secondary" secondary={true} />
+          <RaisedButton label="Secondary" secondary={true} />
           <nav>
             <div>
               <h3>General</h3>
@@ -35,10 +51,9 @@ var MainLayout = React.createClass({
           </nav>
           <hr />
           {this.props.children}
+          <script src="/js/app.js" />
         </body>
       </html>
     );
   }
 });
-
-module.exports = MainLayout;
