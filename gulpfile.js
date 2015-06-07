@@ -20,6 +20,7 @@ var gulp         = require('gulp'),
     buffer       = require('vinyl-buffer'),
     reactify     = require('reactify');
     preprocess   = require('gulp-preprocess');
+    babel        = require('gulp-babel');
 
 /**
  * error handler
@@ -117,6 +118,7 @@ gulp.task('material-ui', function() {
  */
 gulp.task('scripts-dev', function() {
   return gulp.src('src/assets/js/**/*.js')
+    .pipe(babel())
     .pipe(changed('build/debug/assets/js'))
     // .pipe(jshint('.jshintrc'))
     // .pipe(jshint.reporter('default'))
@@ -129,6 +131,7 @@ gulp.task('scripts', function() {
     // .pipe(jshint('.jshintrc'))
     // .pipe(jshint.reporter('default'))
     // .pipe(concat('main.js'))
+    .pipe(babel())
     .pipe(rename({ suffix: '.min' }))
     .pipe(uglify())
     .pipe(gulp.dest('build/release/assets/js'));
@@ -153,16 +156,30 @@ gulp.task('images-dev', function() {
  * copy files that does not need to be preprocessed,
  * like nodejs server files, controllers, models, etc.
  */
+
+gulp.task('nodejs-dev', function() {
+  return gulp.src(['src/**/*.js', '!src/assets/**/*.js'])
+    .pipe(babel())
+    .pipe(changed('build/debug'))
+    .pipe(gulp.dest('build/debug'));
+});
+
+gulp.task('nodejs', function() {
+  return gulp.src(['src/**/*.js', '!src/assets/**/*.js'])
+    .pipe(babel())
+    .pipe(gulp.dest('build/release'));
+});
+
 gulp.task('copy-dev', function() {
-  return gulp.src(['src/**/*', '!src/assets/'])
-    // .pipe(preprocess({context: { NODE_ENV: 'dev'}}))
+  return gulp.src(['src/**/*', '!src/assets/', '!src/**/*.js'])
+    //.pipe(preprocess({context: { DEV: true}}))
     .pipe(changed('build/debug'))
     .pipe(gulp.dest('build/debug'));
 });
 
 gulp.task('copy', function() {
-  return gulp.src(['src/**/*', '!src/assets/'])
-    // .pipe(preprocess({context: { NODE_ENV: 'prod'}}))
+  return gulp.src(['src/**/*', '!src/assets/', '!src/**/*.js'])
+    //.pipe(preprocess({context: { PROD: true }}))
     .pipe(gulp.dest('build/release'));
 });
 
@@ -242,13 +259,13 @@ gulp.task('default', function() {
  * Development/Debug mode
  */
 gulp.task('dev', ['clean-dev'], function() {
-  gulp.start('styles-dev', /*'material-ui',*/ 'scripts-dev', 'images-dev', 'watch', 'browser-sync');
+  gulp.start('styles-dev', /*'material-ui',*/ 'scripts-dev', 'images-dev', 'nodejs-dev', 'watch', 'browser-sync');
 });
 
 /**
  * Deployment/Production mode
  */
 gulp.task('prod', ['clean'], function() {
-  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'copy');
+  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'nodejs', 'copy');
   //gulp.src('').pipe(notify('Production mode is currently not supported'));
 });
