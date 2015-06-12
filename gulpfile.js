@@ -18,8 +18,9 @@ var gulp         = require('gulp'),
     browserify   = require('browserify'),
     source       = require('vinyl-source-stream'),
     buffer       = require('vinyl-buffer'),
-    reactify     = require('reactify');
-    preprocess   = require('gulp-preprocess');
+    reactify     = require('reactify'),
+    globify      = require('require-globify'),
+    preprocess   = require('gulp-preprocess'),
     babel        = require('gulp-babel');
 
 /**
@@ -168,6 +169,19 @@ gulp.task('backend-scripts-prod', function() {
     .pipe(gulp.dest('build/release'));
 });
 
+gulp.task('backend-views-dev', function() {
+  browserify({
+    debug : true,
+    entries: './src/assets/js/index.js',
+    transform: [reactify, globify]
+  })
+  .bundle()
+  .pipe(source('bundle.js'))
+   //do all processing here.
+   //like uglification and so on.
+  .pipe(gulp.dest('build/debug/assets/js'));
+});
+
 /**
  * copy files that does not need to be preprocessed,
  * like nodejs server files, controllers, models, etc.
@@ -184,21 +198,20 @@ gulp.task('copy-prod', function() {
     //.pipe(preprocess({context: { PROD: true }}))
     .pipe(gulp.dest('build/release'));
 });
-
  
 /**
  * watch and reprocess files that changed
  */
 gulp.task('watch', function() {
   // watch .less files
-  gulp.watch('src/assets/less/**/*.less', ['styles']);
+  gulp.watch('src/assets/less/**/*.less', ['styles-dev']);
  
   // watch .js/.jsx files
-  gulp.watch('src/assets/js/**/*.js', ['scripts']);
-  // gulp.watch('src/assets/js/**/*.jsx', ['material-ui']);
+  gulp.watch('src/assets/js/**/*.js', ['frontend-scripts-dev']);
+  gulp.watch('src/views/**/*.jsx', ['backend-views-dev']);
  
   // watch image files
-  gulp.watch('src/assets/img/**/*', ['images']);
+  gulp.watch('src/assets/img/**/*', ['images-dev']);
  
   // watch other files
   gulp.watch(['src/**/*', '!src/assets/**/*'], ['copy-dev']);
@@ -261,7 +274,7 @@ gulp.task('default', function() {
  * Development/Debug mode
  */
 gulp.task('dev', ['clean-dev'], function() {
-  gulp.start('styles-dev', /*'material-ui-dev',*/ 'frontend-scripts-dev', 'images-dev', 'backend-scripts-dev', 'watch', 'browser-sync');
+  gulp.start('styles-dev', /*'material-ui-dev',*/ 'frontend-scripts-dev', 'images-dev', 'backend-scripts-dev', 'backend-views-dev', 'watch', 'browser-sync');
 });
 
 /**

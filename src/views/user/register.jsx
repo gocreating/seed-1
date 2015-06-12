@@ -1,5 +1,5 @@
 var React = require('react');
-var MainLayout = require('../layout/main');
+var MainLayout = require('../layout/main.jsx');
 
 module.exports = React.createClass({
   render: function() {

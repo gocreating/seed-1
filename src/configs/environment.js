@@ -1,4 +1,5 @@
 var express  = require('express');
+var renderer = require('react-engine');
 var expressLayouts = require('express-ejs-layouts');
 var favicon = require('serve-favicon');
 var morgan = require('morgan');
@@ -9,12 +10,28 @@ var passport = require('passport');
 // var SessionStore = require('express-mysql-session'); // Store session in mysql database
 
 module.exports = function(app) {
-  // view engine setup
-  app.set('views', __dirname + '\/..\/views');
-  app.set('view engine', 'jsx');
-  app.engine('jsx', require('express-react-views').createEngine());
+  /**
+   * view engine setup
+   */
+  
+  // create the view engine with `react-engine`
+  var engine = renderer.server.create();
 
-  // serve static files
+  // set the engine
+  app.engine('.jsx', engine);
+
+  // set the view directory
+  app.set('views', __dirname + '\/..\/views');
+
+  // set js as the view engine
+  app.set('view engine', 'jsx');
+
+  // finally, set the custom view
+  app.set('view', renderer.expressView);
+
+  /**
+   * serve static files
+   */
   app.use(express.static(__dirname + '/../assets'));
   app.use(favicon(__dirname + '/../assets/favicon.ico'));
 

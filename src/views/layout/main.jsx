@@ -1,24 +1,12 @@
-var React = require('react');
-var mui = require('material-ui'),
-    RaisedButton = mui.RaisedButton,
-    FlatButton = mui.FlatButton;
-    Dialog = mui.Dialog;
+'use strict';
 
-var standardActions = [
-  { text: 'Cancel' },
-  { text: 'Submit', onClick: this._onDialogSubmit, ref: 'submit' }
-];
+var React = require('react');
 
 module.exports = React.createClass({
-  handleClick: function() {
-    alert(this.props);
+  handleButtonClick: function() {
+    alert('haha');
   },
-  getDefaultProps: function() {
-    return {
-      title: 'Seed'
-    };
-  },
-  render: function() {
+  render: function render() {
     var scripts = (this.props.scripts || []).map(function(src, idx) {
       return <script key={idx} src={src}></script>
     });
@@ -27,27 +15,22 @@ module.exports = React.createClass({
       return <link key={idx} rel="stylesheet" href={src}/>
     });
 
-    if (!this.props.serverRender) {
-      return (
-        <div>{this.props.children}</div>
-      );
-    }
-
     return (
-      <html>        
+      <html>
         <head>
-          <meta charSet="UTF-8"/>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-          <meta httpEquiv="X-UA-Compatible" content="IE=edge"/>
-          <title>{this.props.title}</title>
+          <meta charSet="utf-8" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+          <title>
+            {this.props.title}
+          </title>
+
           <link rel="stylesheet" type="text/css" href="/css/main.css" />
-          <link rel="stylesheet" type="text/css" href="/css/material-ui.css" />
           {styles}
         </head>
+
         <body>
-          <RaisedButton label="Default" />
-          <FlatButton onClick={this.handleClick} label="Secondary" secondary={true} />
-          <RaisedButton label="Secondary" secondary={true} />
+          <button onClick={this.handleButtonClick}>Click Me</button>
           <nav>
             <div>
               <h3>General</h3>
@@ -68,9 +51,12 @@ module.exports = React.createClass({
             </div>
           </nav>
           <hr />
+
           {this.props.children}
-          <script src="/js/app.js" />
+
         </body>
+
+        <script src='/js/bundle.js'></script>
       </html>
     );
   }

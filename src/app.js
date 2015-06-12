@@ -1,3 +1,8 @@
+'use strict';
+
+// make `.jsx` file requirable by node
+require('node-jsx').install();
+
 var express = require('express');
 var environment = require('./configs/environment');
 var database = require('./configs/database');

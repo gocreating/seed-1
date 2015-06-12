@@ -33,10 +33,13 @@
     "material-ui": "^0.7.3",
     "mongodb": "^2.0.27",
     "morgan": "~1.5.1",
+    "node-jsx": "^0.13.3",
     "orm": "^2.1.24",
     "passport": "^0.2.1",
     "pm2": "^0.12.15",
     "react": "^0.13.1",
+    "react-engine": "^1.6.0",
+    "react-router": "^0.13.3",
     "react-tap-event-plugin": "^0.1.6",
     "serve-favicon": "~2.2.0",
     "sqlite3": "^3.0.5"
@@ -60,6 +63,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.1.0",
     "reactify": "^1.1.0",
+    "require-globify": "^1.2.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
