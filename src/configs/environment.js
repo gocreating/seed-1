@@ -1,4 +1,5 @@
 var express  = require('express');
+var path  = require('path');
 var renderer = require('react-engine');
 var expressLayouts = require('express-ejs-layouts');
 var favicon = require('serve-favicon');
@@ -21,7 +22,8 @@ module.exports = function(app) {
   app.engine('.jsx', engine);
 
   // set the view directory
-  app.set('views', __dirname + '\/..\/views');
+  // app.set('views', __dirname + '\/..\/views');
+  app.set('views', path.join(__dirname, '/../views'));
 
   // set js as the view engine
   app.set('view engine', 'jsx');
