@@ -45,7 +45,7 @@ gulp.task('clean-dev', function(cb) {
     del(['build/debug/'], cb);
 });
 
-gulp.task('clean', function(cb) {
+gulp.task('clean-prod', function(cb) {
     del(['build/release/'], cb);
 });
 
@@ -61,7 +61,7 @@ gulp.task('styles-dev', function() {
     .pipe(gulp.dest('build/debug/assets/css'));
 });
 
-gulp.task('styles', function() {
+gulp.task('styles-prod', function() {
   return gulp.src('src/assets/less/main.less')
     .pipe(less())
     .on('error', handleErrors)
@@ -90,7 +90,7 @@ gulp.task('material-ui-dev', function() {
   .pipe(gulp.dest('build/debug/assets/js'));
 });
 
-gulp.task('material-ui', function() {
+gulp.task('material-ui-prod', function() {
   gulp.src('src/assets/less/material-ui.less')
     .pipe(less())
     .on('error', handleErrors)
@@ -114,31 +114,30 @@ gulp.task('material-ui', function() {
 });
  
 /**
- * minify front-end .js files
+ * compile front-end .js files
  */
-gulp.task('scripts-dev', function() {
+gulp.task('frontend-scripts-dev', function() {
   return gulp.src('src/assets/js/**/*.js')
-    .pipe(babel())
     .pipe(changed('build/debug/assets/js'))
+    .pipe(babel())
     // .pipe(jshint('.jshintrc'))
     // .pipe(jshint.reporter('default'))
-    // .pipe(concat('main.js'))
     .pipe(gulp.dest('build/debug/assets/js'));
 });
 
-gulp.task('scripts', function() {
+gulp.task('frontend-scripts-prod', function() {
   return gulp.src('src/assets/js/**/*.js')
     // .pipe(jshint('.jshintrc'))
     // .pipe(jshint.reporter('default'))
-    // .pipe(concat('main.js'))
     .pipe(babel())
-    .pipe(rename({ suffix: '.min' }))
+    .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     .pipe(gulp.dest('build/release/assets/js'));
 });
 
 /**
  * compressing images
+ * TO-DO
  */
 gulp.task('images-dev', function() {
   return gulp.src('src/assets/img/**/*')
@@ -147,29 +146,32 @@ gulp.task('images-dev', function() {
     .pipe(gulp.dest('build/debug/assets/img'));
 });
  
- gulp.task('images', function() {
+ gulp.task('images-prod', function() {
   return gulp.src('src/assets/img/**/*')
     // .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
     .pipe(gulp.dest('build/release/assets/img'));
 });
-/**
- * copy files that does not need to be preprocessed,
- * like nodejs server files, controllers, models, etc.
- */
 
-gulp.task('nodejs-dev', function() {
+/**
+ * compele backend .js files
+ */
+gulp.task('backend-scripts-dev', function() {
   return gulp.src(['src/**/*.js', '!src/assets/**/*.js'])
     .pipe(babel())
     .pipe(changed('build/debug'))
     .pipe(gulp.dest('build/debug'));
 });
 
-gulp.task('nodejs', function() {
+gulp.task('backend-scripts-prod', function() {
   return gulp.src(['src/**/*.js', '!src/assets/**/*.js'])
     .pipe(babel())
     .pipe(gulp.dest('build/release'));
 });
 
+/**
+ * copy files that does not need to be preprocessed,
+ * like nodejs server files, controllers, models, etc.
+ */
 gulp.task('copy-dev', function() {
   return gulp.src(['src/**/*', '!src/assets/', '!src/**/*.js'])
     //.pipe(preprocess({context: { DEV: true}}))
@@ -177,7 +179,7 @@ gulp.task('copy-dev', function() {
     .pipe(gulp.dest('build/debug'));
 });
 
-gulp.task('copy', function() {
+gulp.task('copy-prod', function() {
   return gulp.src(['src/**/*', '!src/assets/', '!src/**/*.js'])
     //.pipe(preprocess({context: { PROD: true }}))
     .pipe(gulp.dest('build/release'));
@@ -259,13 +261,12 @@ gulp.task('default', function() {
  * Development/Debug mode
  */
 gulp.task('dev', ['clean-dev'], function() {
-  gulp.start('styles-dev', /*'material-ui',*/ 'scripts-dev', 'images-dev', 'nodejs-dev', 'watch', 'browser-sync');
+  gulp.start('styles-dev', /*'material-ui-dev',*/ 'frontend-scripts-dev', 'images-dev', 'backend-scripts-dev', 'watch', 'browser-sync');
 });
 
 /**
  * Deployment/Production mode
  */
 gulp.task('prod', ['clean'], function() {
-  gulp.start('styles', /*'material-ui',*/ 'scripts', 'images', 'nodejs', 'copy');
-  //gulp.src('').pipe(notify('Production mode is currently not supported'));
+  gulp.start('styles-prod', /*'material-ui-prod',*/ 'frontend-scripts-prod', 'images-prod', 'backend-scripts-prod', 'copy-prod');
 });
