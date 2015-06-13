@@ -1,7 +1,6 @@
 var express  = require('express');
 var path  = require('path');
 var renderer = require('react-engine');
-var expressLayouts = require('express-ejs-layouts');
 var favicon = require('serve-favicon');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
