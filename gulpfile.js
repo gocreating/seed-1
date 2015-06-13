@@ -54,7 +54,8 @@ gulp.task('clean-prod', function(cb) {
  * compile .less files
  */
 gulp.task('styles-dev', function() {
-  return gulp.src('src/assets/less/main.less')
+  // global style, material-ui style
+  gulp.src(['src/assets/less/main.less', 'src/assets/less/material-ui.less'])
     .pipe(changed('build/debug/assets/css'))
     .pipe(less())
     .on('error', handleErrors)
@@ -63,55 +64,13 @@ gulp.task('styles-dev', function() {
 });
 
 gulp.task('styles-prod', function() {
-  return gulp.src('src/assets/less/main.less')
+  return gulp.src(['src/assets/less/main.less', 'src/assets/less/material-ui.less'])
     .pipe(less())
     .on('error', handleErrors)
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
     .pipe(rename({ suffix: '.min' }))
     .pipe(minifycss())
     .pipe(gulp.dest('build/release/assets/css'));
-});
-
-gulp.task('material-ui-dev', function() {
-  gulp.src('src/assets/less/material-ui.less')
-    .pipe(less())
-    .on('error', handleErrors)
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest('build/debug/assets/css'));
-
-  browserify({
-    debug : true,
-    entries: './src/assets/js/app.jsx',
-    transform: [reactify]
-  })
-  .bundle()
-  .pipe(source('app.js'))
-   //do all processing here.
-   //like uglification and so on.
-  .pipe(gulp.dest('build/debug/assets/js'));
-});
-
-gulp.task('material-ui-prod', function() {
-  gulp.src('src/assets/less/material-ui.less')
-    .pipe(less())
-    .on('error', handleErrors)
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(minifycss())
-    .pipe(gulp.dest('build/release/assets/css'));
-
-  browserify({
-    debug : true,
-    entries: './src/assets/js/app.jsx',
-    transform: [reactify]
-  })
-  .bundle()
-  .pipe(source('app.js'))
-  .pipe(buffer())
-   //do all processing here.
-   //like uglification and so on.
-  .pipe(uglify())
-  .pipe(gulp.dest('build/release/assets/js'));
 });
  
 /**
@@ -169,6 +128,9 @@ gulp.task('backend-scripts-prod', function() {
     .pipe(gulp.dest('build/release'));
 });
 
+/**
+ * compele backend .jsx view files
+ */
 gulp.task('backend-views-dev', function() {
   browserify({
     debug : true,
@@ -177,9 +139,19 @@ gulp.task('backend-views-dev', function() {
   })
   .bundle()
   .pipe(source('bundle.js'))
-   //do all processing here.
-   //like uglification and so on.
   .pipe(gulp.dest('build/debug/assets/js'));
+});
+
+gulp.task('backend-views-prod', function() {
+  browserify({
+    debug : false,
+    entries: './src/assets/js/index.js',
+    transform: [reactify, globify]
+  })
+  .bundle()
+  .pipe(source('bundle.js'))
+  .pipe(uglify())
+  .pipe(gulp.dest('build/release/assets/js'));
 });
 
 /**
@@ -274,12 +246,12 @@ gulp.task('default', function() {
  * Development/Debug mode
  */
 gulp.task('dev', ['clean-dev'], function() {
-  gulp.start('styles-dev', /*'material-ui-dev',*/ 'frontend-scripts-dev', 'images-dev', 'backend-scripts-dev', 'backend-views-dev', 'watch', 'browser-sync');
+  gulp.start('styles-dev', 'frontend-scripts-dev', 'images-dev', 'backend-scripts-dev', 'backend-views-dev', 'watch', 'browser-sync');
 });
 
 /**
  * Deployment/Production mode
  */
 gulp.task('prod', ['clean'], function() {
-  gulp.start('styles-prod', /*'material-ui-prod',*/ 'frontend-scripts-prod', 'images-prod', 'backend-scripts-prod', 'copy-prod');
+  gulp.start('styles-prod', 'frontend-scripts-prod', 'images-prod', 'backend-scripts-prod', 'backend-views-prod', 'copy-prod');
 });

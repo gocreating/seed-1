@@ -2,10 +2,11 @@
 
 var React = require('react');
 
+// require material-ui
+var mui = require('material-ui'),
+    Paper = mui.Paper;
+
 module.exports = React.createClass({
-  handleButtonClick: function() {
-    alert('haha');
-  },
   render: function render() {
     var scripts = (this.props.scripts || []).map(function(src, idx) {
       return <script key={idx} src={src}></script>
@@ -26,12 +27,15 @@ module.exports = React.createClass({
           </title>
 
           <link rel="stylesheet" type="text/css" href="/css/main.css" />
+          <link rel="stylesheet" type="text/css" href="/css/material-ui.css" />
           {styles}
         </head>
 
         <body>
-          <button onClick={this.handleButtonClick}>Click Me</button>
-          <nav>
+          <Paper
+            zDepth={3}
+            className='nav'>
+            <h1>Navbar</h1>
             <div>
               <h3>General</h3>
               <ul>
@@ -49,8 +53,7 @@ module.exports = React.createClass({
                 <li><a href="/user/logout">Logout</a></li>
               </ul>
             </div>
-          </nav>
-          <hr />
+          </Paper>
 
           {this.props.children}
 
@@ -59,5 +62,5 @@ module.exports = React.createClass({
         <script src='/js/bundle.js'></script>
       </html>
     );
-  }
+  },
 });
