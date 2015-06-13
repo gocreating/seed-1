@@ -33,7 +33,7 @@ module.exports = React.createClass({
 
         <body>
           <Paper
-            zDepth={3}
+            zDepth={2}
             className='nav'>
             <h1>Navbar</h1>
             <div>
@@ -55,8 +55,18 @@ module.exports = React.createClass({
             </div>
           </Paper>
 
-          {this.props.children}
-
+          <Paper
+            zDepth={1}
+            style={{
+              margin: '0px 10px 10px 10px',
+            }}>
+            <div
+              style={{
+                padding: '10px',
+              }}>
+              {this.props.children}
+            </div>
+          </Paper>
         </body>
 
         <script src='/js/bundle.js'></script>
