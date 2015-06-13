@@ -1,27 +1,28 @@
 /**
  * Load plugins
  */
-var gulp         = require('gulp'),
-    less         = require('gulp-less'),
-    autoprefixer = require('gulp-autoprefixer'),
-    minifycss    = require('gulp-minify-css'),
-    jshint       = require('gulp-jshint'),
-    uglify       = require('gulp-uglify'),
-    // imagemin  = require('gulp-imagemin'),
-    rename       = require('gulp-rename'),
-    concat       = require('gulp-concat'),
-    browserSync  = require('browser-sync'),
-    nodemon      = require('gulp-nodemon'),
-    changed      = require('gulp-changed'),
-    del          = require('del'),
-    notify       = require("gulp-notify"),
-    browserify   = require('browserify'),
-    source       = require('vinyl-source-stream'),
-    buffer       = require('vinyl-buffer'),
-    reactify     = require('reactify'),
-    globify      = require('require-globify'),
-    preprocess   = require('gulp-preprocess'),
-    babel        = require('gulp-babel');
+var gulp          = require('gulp'),
+    less          = require('gulp-less'),
+    autoprefixer  = require('gulp-autoprefixer'),
+    minifycss     = require('gulp-minify-css'),
+    jshint        = require('gulp-jshint'),
+    uglify        = require('gulp-uglify'),
+    // imagemin   = require('gulp-imagemin'),
+    rename        = require('gulp-rename'),
+    concat        = require('gulp-concat'),
+    browserSync   = require('browser-sync'),
+    nodemon       = require('gulp-nodemon'),
+    changed       = require('gulp-changed'),
+    del           = require('del'),
+    notify        = require("gulp-notify"),
+    browserify    = require('browserify'),
+    source        = require('vinyl-source-stream'),
+    buffer        = require('vinyl-buffer'),
+    reactify      = require('reactify'),
+    globify       = require('require-globify'),
+    preprocess    = require('gulp-preprocess'),
+    preprocessify = require('preprocessify'),
+    babel         = require('gulp-babel');
 
 /**
  * error handler
@@ -69,7 +70,7 @@ gulp.task('styles-prod', function(cb) {
     .pipe(less())
     .on('error', handleErrors)
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(rename({ suffix: '.min' }))
+    // .pipe(rename({ suffix: '.min' }))
     .pipe(minifycss())
     .pipe(gulp.dest('build/release/assets/css'))
     .on('end', cb);
@@ -93,7 +94,7 @@ gulp.task('frontend-scripts-prod', function(cb) {
     // .pipe(jshint('.jshintrc'))
     // .pipe(jshint.reporter('default'))
     .pipe(babel())
-    .pipe(rename({suffix: '.min'}))
+    // .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     .pipe(gulp.dest('build/release/assets/js'))
     .on('end', cb);
@@ -159,6 +160,7 @@ gulp.task('backend-views-prod', function(cb) {
   })
   .bundle()
   .pipe(source('bundle.js'))
+  .pipe(buffer())
   .pipe(uglify())
   .pipe(gulp.dest('build/release/assets/js'))
   .on('end', cb);
@@ -267,6 +269,6 @@ gulp.task('dev', ['clean-dev'], function() {
 /**
  * Deployment/Production mode
  */
-gulp.task('prod', ['clean'], function() {
+gulp.task('prod', ['clean-prod'], function() {
   gulp.start('styles-prod', 'frontend-scripts-prod', 'images-prod', 'backend-scripts-prod', 'backend-views-prod', 'copy-prod');
 });
