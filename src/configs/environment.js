@@ -38,7 +38,7 @@ module.exports = function(app) {
   app.use(favicon(__dirname + '/../assets/favicon.ico'));
 
   // logger
-  app.use(morgan(':remote-addr :method :url HTTP/:http-version :status :res[content-length] - :response-time ms'));
+  app.use(morgan(':remote-addr :status :method :url\t:res[content-length] - :response-time ms'));
 
   // parser
   app.use(bodyParser.json());
