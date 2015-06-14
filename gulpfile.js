@@ -1,28 +1,28 @@
 /**
  * Load plugins
  */
-var gulp          = require('gulp'),
-    less          = require('gulp-less'),
-    autoprefixer  = require('gulp-autoprefixer'),
-    minifycss     = require('gulp-minify-css'),
-    jshint        = require('gulp-jshint'),
-    uglify        = require('gulp-uglify'),
-    // imagemin   = require('gulp-imagemin'),
-    rename        = require('gulp-rename'),
-    concat        = require('gulp-concat'),
-    browserSync   = require('browser-sync'),
-    nodemon       = require('gulp-nodemon'),
-    changed       = require('gulp-changed'),
-    del           = require('del'),
-    notify        = require("gulp-notify"),
-    browserify    = require('browserify'),
-    source        = require('vinyl-source-stream'),
-    buffer        = require('vinyl-buffer'),
-    reactify      = require('reactify'),
-    globify       = require('require-globify'),
-    preprocess    = require('gulp-preprocess'),
-    preprocessify = require('preprocessify'),
-    babel         = require('gulp-babel');
+var gulp          = require('gulp');
+var less          = require('gulp-less');
+var autoprefixer  = require('gulp-autoprefixer');
+var minifycss     = require('gulp-minify-css');
+var jshint        = require('gulp-jshint');
+var uglify        = require('gulp-uglify');
+// var imagemin      = require('gulp-imagemin');
+var rename        = require('gulp-rename');
+var concat        = require('gulp-concat');
+var browserSync   = require('browser-sync');
+var nodemon       = require('gulp-nodemon');
+var changed       = require('gulp-changed');
+var del           = require('del');
+var notify        = require('gulp-notify');
+var browserify    = require('browserify');
+var source        = require('vinyl-source-stream');
+var buffer        = require('vinyl-buffer');
+var reactify      = require('reactify');
+var globify       = require('require-globify');
+var preprocess    = require('gulp-preprocess');
+var preprocessify = require('preprocessify');
+var babel         = require('gulp-babel');
 
 /**
  * error handler
@@ -32,8 +32,8 @@ var handleErrors = function() {
 
   // Send error to notification center with gulp-notify
   notify.onError({
-    title: "Compile Error",
-    message: "<%= error.message %>"
+    title: 'Compile Error',
+    message: '<%= error.message %>',
   }).apply(this, args);
 
   // Keep gulp from hanging on this task
@@ -60,7 +60,15 @@ gulp.task('styles-dev', function(cb) {
     .pipe(changed('build/debug/assets/css'))
     .pipe(less())
     .on('error', handleErrors)
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(autoprefixer(
+      'last 2 version',
+      'safari 5',
+      'ie 8',
+      'ie 9',
+      'opera 12.1',
+      'ios 6',
+      'android 4'
+    ))
     .pipe(gulp.dest('build/debug/assets/css'))
     .on('end', cb);
 });
@@ -69,13 +77,21 @@ gulp.task('styles-prod', function(cb) {
   gulp.src(['src/assets/less/main.less', 'src/assets/less/material-ui.less'])
     .pipe(less())
     .on('error', handleErrors)
-    .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(autoprefixer(
+      'last 2 version',
+      'safari 5',
+      'ie 8',
+      'ie 9',
+      'opera 12.1',
+      'ios 6',
+      'android 4'
+    ))
     // .pipe(rename({ suffix: '.min' }))
     .pipe(minifycss())
     .pipe(gulp.dest('build/release/assets/css'))
     .on('end', cb);
 });
- 
+
 /**
  * compile front-end .js files
  */
@@ -107,14 +123,22 @@ gulp.task('frontend-scripts-prod', function(cb) {
 gulp.task('images-dev', function(cb) {
   gulp.src('src/assets/img/**/*')
     .pipe(changed('build/debug/assets/img'))
-    // .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+    // .pipe(cache(imagemin({
+    //   optimizationLevel: 3,
+    //   progressive: true,
+    //   interlaced: true,
+    // })))
     .pipe(gulp.dest('build/debug/assets/img'))
     .on('end', cb);
 });
- 
- gulp.task('images-prod', function(cb) {
+
+gulp.task('images-prod', function(cb) {
   gulp.src('src/assets/img/**/*')
-    // .pipe(cache(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true })))
+    // .pipe(cache(imagemin({
+    //   optimizationLevel: 3,
+    //   progressive: true,
+    //   interlaced: true,
+    // })))
     .pipe(gulp.dest('build/release/assets/img'))
     .on('end', cb);
 });
@@ -142,9 +166,9 @@ gulp.task('backend-scripts-prod', function(cb) {
  */
 gulp.task('backend-views-dev', function(cb) {
   browserify({
-    debug : true,
+    debug: true,
     entries: './src/assets/js/index.js',
-    transform: [reactify, globify]
+    transform: [reactify, globify],
   })
   .bundle()
   .pipe(source('bundle.js'))
@@ -154,9 +178,9 @@ gulp.task('backend-views-dev', function(cb) {
 
 gulp.task('backend-views-prod', function(cb) {
   browserify({
-    debug : false,
+    debug: false,
     entries: './src/assets/js/index.js',
-    transform: [reactify, globify]
+    transform: [reactify, globify],
   })
   .bundle()
   .pipe(source('bundle.js'))
@@ -172,7 +196,7 @@ gulp.task('backend-views-prod', function(cb) {
  */
 gulp.task('copy-dev', function(cb) {
   gulp.src(['src/**/*', '!src/assets/', '!src/**/*.js'])
-    //.pipe(preprocess({context: { DEV: true}}))
+    // .pipe(preprocess({context: { DEV: true}}))
     .pipe(changed('build/debug'))
     .pipe(gulp.dest('build/debug'))
     .on('end', cb);
@@ -180,28 +204,28 @@ gulp.task('copy-dev', function(cb) {
 
 gulp.task('copy-prod', function(cb) {
   gulp.src(['src/**/*', '!src/assets/', '!src/**/*.js'])
-    //.pipe(preprocess({context: { PROD: true }}))
+    // .pipe(preprocess({context: { PROD: true }}))
     .pipe(gulp.dest('build/release'))
     .on('end', cb);
 });
- 
+
 /**
  * watch and reprocess files that changed
  */
 gulp.task('watch', function(cb) {
   // watch .less files
   gulp.watch('src/assets/less/**/*.less', ['styles-dev']);
- 
+
   // watch .js files
   gulp.watch('src/assets/js/**/*.js', ['frontend-scripts-dev']);
   gulp.watch(['src/**/*.js', '!src/assets/**/*.js'], ['backend-scripts-dev']);
 
   // watch .jsx files
   gulp.watch('src/views/**/*.jsx', ['backend-views-dev']);
- 
+
   // watch image files
   gulp.watch('src/assets/img/**/*', ['images-dev']);
- 
+
   // watch other files
   gulp.watch(['src/**/*', '!src/assets/', '!src/**/*.js'], ['copy-dev']);
 });
@@ -211,8 +235,8 @@ gulp.task('watch', function(cb) {
  */
 gulp.task('nodemon', function(cb) {
   nodemon({
-    script: 'build/debug/app.js'
-  }).on('start', function () {
+    script: 'build/debug/app.js',
+  }).on('start', function() {
     cb();
   });
 });
@@ -233,18 +257,21 @@ gulp.task('browser-sync', function(cb) {
  */
 gulp.task('syncdb', function(cb) {
   var models = require('./src/models/');
-  models(function (err, db) {
-    if (err) return gulp.src('').pipe(notify('[Sync Fail] Cannot connect to database'));
-    db.sync(function() {    
+  models(function(err, db) {
+    if (err) {
+      return gulp.src('')
+        .pipe(notify('[Sync Fail] Cannot connect to database'));
+    }
+    db.sync(function() {
       // add dummy data here
       db.models.group.create({
-        name: 'default user'
+        name: 'default user',
       }, function(err, group) {
 
       });
 
       db.models.group.create({
-        name: 'vip user'
+        name: 'vip user',
       }, function(err, group) {
 
       });
@@ -263,12 +290,29 @@ gulp.task('default', function() {
  * Development/Debug mode
  */
 gulp.task('dev', ['clean-dev'], function() {
-  gulp.start('styles-dev', 'frontend-scripts-dev', 'images-dev', 'backend-scripts-dev', 'backend-views-dev', 'copy-dev', 'watch', 'nodemon', 'browser-sync');
+  gulp.start(
+    'styles-dev',
+    'frontend-scripts-dev',
+    'images-dev',
+    'backend-scripts-dev',
+    'backend-views-dev',
+    'copy-dev',
+    'watch',
+    'nodemon',
+    'browser-sync'
+  );
 });
 
 /**
  * Deployment/Production mode
  */
 gulp.task('prod', ['clean-prod'], function() {
-  gulp.start('styles-prod', 'frontend-scripts-prod', 'images-prod', 'backend-scripts-prod', 'backend-views-prod', 'copy-prod');
+  gulp.start(
+    'styles-prod',
+    'frontend-scripts-prod',
+    'images-prod',
+    'backend-scripts-prod',
+    'backend-views-prod',
+    'copy-prod'
+  );
 });

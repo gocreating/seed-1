@@ -1,0 +1,11 @@
+{
+  "preset": "node-style-guide",
+  "esprima": "esprima-fb",
+  "fileExtensions": [".js", ".jsx"],
+  "excludeFiles": [
+    "node_modules/**",
+    "build/**",
+    "src/assets/lib/**"
+  ],
+  "requireCapitalizedComments": null
+}
