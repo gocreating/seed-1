@@ -7,13 +7,14 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
-// var SessionStore = require('express-mysql-session'); // Store session in mysql database
+// Store session in mysql database
+// var SessionStore = require('express-mysql-session');
 
 module.exports = function(app) {
   /**
    * view engine setup
    */
-  
+
   // create the view engine with `react-engine`
   var engine = renderer.server.create();
 
@@ -36,26 +37,39 @@ module.exports = function(app) {
   app.use(express.static(__dirname + '/../assets'));
   app.use(favicon(__dirname + '/../assets/favicon.ico'));
 
-  // logger
-  app.use(morgan(':remote-addr :status :method :url\t:res[content-length] - :response-time ms'));
+  /**
+   * logger
+   */
+  app.use(morgan(
+    ':remote-addr ' +
+    ':status ' +
+    ':method ' +
+    ':url\t' +
+    ':res[content-length] - ' +
+    ':response-time ms'
+  ));
 
-  // parser
+  /**
+   * parser
+   */
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
-    extended: false
+    extended: false,
   }));
+
   // app.use(cookieParser());
-  // app.use(session({                                    // parse session (req.session)
-  //     secret: config.secret.sessionSecret,
-  //     resave: true,
-  //     saveUninitialized: true,
-  //     store: new SessionStore({
-  //         host: config.db.host,
-  //         port: config.db.port,
-  //         user: config.db.user,
-  //         password: config.db.password,
-  //         database: config.db.database
-  //     })
+  // // parse session (req.session)
+  // app.use(session({
+  //   secret: config.secret.sessionSecret,
+  //   resave: true,
+  //   saveUninitialized: true,
+  //   store: new SessionStore({
+  //     host: config.db.host,
+  //     port: config.db.port,
+  //     user: config.db.user,
+  //     password: config.db.password,
+  //     database: config.db.database,
+  //   }),
   // }));
 
   // authentication

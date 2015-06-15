@@ -2,7 +2,7 @@ module.exports = {
   register: {
     get: function(req, res) {
       res.render('user/register', {
-        msg: ''
+        msg: '',
       });
     },
     post: function(req, res, next) {
@@ -12,16 +12,18 @@ module.exports = {
         isVerified: false,
       };
       req.models.user.register(newUser, function(err, isExist, user) {
-        if (err) return next(err);
+        if (err) {
+          return next(err);
+        }
         if (isExist) {
           res.render('user/register', {
-            msg: 'User already exist'
+            msg: 'User already exist',
           });
-        } else{
+        } else {
           res.redirect('/user/login');
         }
       });
-    }
+    },
   },
   login: {
     get: function(req, res) {
@@ -29,7 +31,7 @@ module.exports = {
     },
     post: function(req, res) {
       res.redirect('/user/profile');
-    }
+    },
   },
   logout: function(req, res) {
     res.redirect('/');
@@ -40,5 +42,5 @@ module.exports = {
   test: function(req, res) {
     var User = require('../models/UserModel');
     res.send('nothing');
-  }
+  },
 };

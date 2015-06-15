@@ -19,14 +19,24 @@ module.exports = function(orm, db) {
 
   /**
    * Register a new user
-   * @param {object}   newUser                - The user object that will be created
-   * @param {function} cb(err, isExist, user) - The callback function
-   * @param {boolean}  cb().isExist           - Whether the user is already exitsting
-   * @param {object}   cb().user              - The user object just created
+   *
+   * @param {object} newUser
+   *  - The user object that will be created
+   *
+   * @param {function} cb(err, isExist, user)
+   *  - The callback function
+   *
+   * @param {boolean} cb().isExist
+   *  - Whether the user is already exitsting
+   *
+   * @param {object} cb().user
+   *  - The user object just created
    */
   User.register = function(newUser, cb) {
     User.exists({username: newUser.username}, function(err, isExist) {
-      if (err) return cb(new DatabaseError());
+      if (err) {
+        return cb(new DatabaseError());
+      }
       if (isExist) {
         return cb(null, true, null);
       } else {
@@ -35,26 +45,33 @@ module.exports = function(orm, db) {
         var passwordHash = newUser.password;
         var recursiveLevel = 5;
         while (recursiveLevel) {
-          passwordHash = crypto.createHash('md5').update(passwordHash).digest('hex');
+          passwordHash = crypto
+            .createHash('md5')
+            .update(passwordHash)
+            .digest('hex');
           recursiveLevel -= 1;
         }
         newUser.password = passwordHash;
 
         // create new user
         User.create(newUser, function(err, user) {
-          if (err) return cb(err, true, null);
+          if (err) {
+            return cb(err, true, null);
+          }
 
-          Group.find({name: 'default user'}).first(function(err, group) {
-            user.setGroup(group, function(err) {
-              return cb(null, false, user);
+          Group
+            .find({name: 'default user'})
+            .first(function(err, group) {
+              user.setGroup(group, function(err) {
+                return cb(null, false, user);
+              });
             });
-          });          
         });
       }
     });
   };
 
   User.login = function(email, password) {
-    
+
   };
 };

@@ -4,5 +4,5 @@ module.exports = function PageNotFoundError(message) {
   this.status = 404;
   this.message = message || 'Page not found';
 };
- 
+
 require('util').inherits(module.exports, Error);

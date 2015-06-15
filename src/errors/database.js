@@ -4,5 +4,5 @@ module.exports = function DatabaseError(message) {
   this.status = 500;
   this.message = message || 'Something wrong when accessing the database';
 };
- 
+
 require('util').inherits(module.exports, Error);

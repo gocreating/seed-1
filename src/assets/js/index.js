@@ -1,3 +1,5 @@
+(function() {
+
 'use strict';
 
 var Client = require('react-engine/lib/client');
@@ -13,9 +15,11 @@ var options = {
   // to resolve the file that was rendered.
   viewResolver: function(viewName) {
     return require('../../views/' + viewName);
-  }
+  },
 };
 
 document.addEventListener('DOMContentLoaded', function onLoad() {
   Client.boot(options);
 });
+
+}());

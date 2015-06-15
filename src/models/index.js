@@ -9,11 +9,15 @@ function setup(db, cb) {
   return cb(null, db);
 }
 
-module.exports = function (cb) {
-  if (connection) return cb(null, connection);
+module.exports = function(cb) {
+  if (connection) {
+    return cb(null, connection);
+  }
 
   orm.connect(settings.db, function(err, db) {
-    if (err) return cb(err);
+    if (err) {
+      return cb(err);
+    }
 
     connection = db;
     db.settings.set('instance.returnAllErrors', true);
