@@ -4,7 +4,8 @@
   "description": "A flexible and scalable suite for building modern websites, using nodejs with express",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run jscs",
+    "jscs": "jscs --verbose ."
   },
   "repository": {
     "type": "git",
