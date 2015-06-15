@@ -6,10 +6,8 @@ node_js:
   - "iojs-v1.1.0"
 
 install:
-  - npm install -g gulp
-  - npm install -g bower
+  - npm install -g jscs
   - npm install
-  - bower install
 
 script:
   - npm test
