@@ -14,5 +14,5 @@ module.exports = React.createClass({
         </form>
       </MainLayout>
     );
-  }
+  },
 });

@@ -12,7 +12,7 @@ module.exports = React.createClass({
           <p>
             {this.props.message}
           </p>
-        
+
           <h2>Error Stack</h2>
           <pre>
             {this.props.stack}
@@ -20,5 +20,5 @@ module.exports = React.createClass({
         </body>
       </html>
     );
-  }
+  },
 });

@@ -3,13 +3,13 @@
 var React = require('react');
 
 // require material-ui
-var mui = require('material-ui'),
-    Paper = mui.Paper;
+var mui = require('material-ui');
+var Paper = mui.Paper;
 
 module.exports = React.createClass({
   render: function render() {
     var scripts = (this.props.scripts || []).map(function(src, idx) {
-      return <script key={idx} src={src}></script>
+      return <script key={idx} src={src}/>
     });
 
     var styles = (this.props.styles || []).map(function(src, idx) {
@@ -20,7 +20,9 @@ module.exports = React.createClass({
       <html>
         <head>
           <meta charSet="utf-8" />
-          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <title>
             {this.props.title}

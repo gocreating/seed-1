@@ -9,5 +9,5 @@ module.exports = React.createClass({
         This page requires login
       </MainLayout>
     );
-  }
+  },
 });
