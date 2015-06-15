@@ -1,5 +1,7 @@
 # Seed
 
+[![Build Status](https://travis-ci.org/gocreating/seed.svg?branch=master)](https://travis-ci.org/gocreating/seed)
+
 A flexible and scalable suite for building modern websites, using nodejs with express.
 
 ## Requirements
