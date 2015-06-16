@@ -65,6 +65,7 @@
     "reactify": "^1.1.0",
     "request": "^2.57.0",
     "require-globify": "^1.2.1",
+    "supertest": "^1.0.1",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }

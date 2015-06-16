@@ -1,25 +1,17 @@
-var assert = require('assert');
+var assert = require('chai').assert;
 var expect = require('chai').expect;
-var request = require('request');
+var request = require('supertest');
 
 describe('User Module', function() {
   describe('Routing', function() {
-    it('should respond to GET', function(done) {
-      request
-        .get('https://localhost:5000/')
-        .end(function(res) {
-          assert(res.ok);
-          assert('Safe and secure!' === res.text);
+    it('should respond to GET /', function(done) {
+      request('http://localhost:5000/')
+        .get()
+        .end(function(err, res) {
+          expect(res).to.not.be.undefined;
+          expect(res.status).to.equal(200);
           done();
         });
-
-      // superagent
-      //   .get('http://localhost:' + 5000)
-      //   .end(function(res) {
-      //     console.log(res);
-      //     expect(res.status).to.equal(200);
-      //     // done();
-      //   });
     });
   });
 });
