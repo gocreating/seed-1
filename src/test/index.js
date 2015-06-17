@@ -8,7 +8,7 @@ describe('User Module', function() {
       '/user/register',
       '/user/login',
       '/user/logout',
-      '/user/profile'
+      '/user/profile',
     ];
 
     paths.forEach(function(path) {
