@@ -9,11 +9,11 @@ var Paper = mui.Paper;
 module.exports = React.createClass({
   render: function render() {
     var scripts = (this.props.scripts || []).map(function(src, idx) {
-      return <script key={idx} src={src}/>
+      return <script key={idx} src={src}/>;
     });
 
     var styles = (this.props.styles || []).map(function(src, idx) {
-      return <link key={idx} rel="stylesheet" href={src}/>
+      return <link key={idx} rel="stylesheet" href={src}/>;
     });
 
     return (
