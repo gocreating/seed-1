@@ -11,6 +11,7 @@ module.exports = {
         password: req.body.password,
         isVerified: false,
       };
+
       req.models.user.register(newUser, function(err, isExist, user) {
         if (err) {
           return next(err);

@@ -280,6 +280,38 @@ gulp.task('syncdb', function(cb) {
 });
 
 /**
+ * concat and uglify prodoction backend script files
+ */
+gulp.task('uglyProd', function(cb) {
+  var modConcat = require('node-module-concat');
+  del(['build/uglyRelease/'], function() {
+    gulp.src('./build/release/assets/**/*')
+      .pipe(gulp.dest('./build/uglyRelease/assets/'))
+      .on('end', function() {
+        gulp.src('./build/release/views/**/*')
+          .pipe(gulp.dest('./build/uglyRelease/views/'))
+          .on('end', function() {
+            modConcat(
+              './build/release/app.js',
+              './build/uglyRelease/tempApp.js',
+              function(err, files) {
+              if (err) {
+                throw err;
+              }
+              gulp.src('./build/uglyRelease/tempApp.js')
+                .pipe(uglify())
+                .pipe(rename('app.js'))
+                .pipe(gulp.dest('./build/uglyRelease/'))
+                .on('end', function() {
+                  del(['./build/uglyRelease/tempApp.js'], cb);
+                });
+            });
+          });
+      });
+  });
+});
+
+/**
  * default task
  */
 gulp.task('default', function() {
