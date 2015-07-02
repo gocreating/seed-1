@@ -6,7 +6,7 @@ node_js:
   - "iojs-v1.1.0"
 
 install:
-  - npm install -g esprima-fb
+  - npm install -g esprima-fb@15001.1.0-dev-harmony-fb
   - npm install -g jscs
   - npm install
 
