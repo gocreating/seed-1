@@ -6,9 +6,9 @@ node_js:
   - "iojs-v1.1.0"
 
 install:
-  - npm install -g esprima-fb
-  - npm install -g jscs
-  - npm install
+  - sudo npm install -g esprima-fb
+  - sudo npm install -g jscs
+  - sudo npm install
 
 script:
   - npm test
