@@ -8,7 +8,14 @@ node_js:
 install:
   - npm install -g esprima-fb@15001.1.0-dev-harmony-fb
   - npm install -g jscs
+  - npm install -g mocha
+  - npm install -g bower
+  - npm install -g gulp
   - npm install
 
+before_script:
+  - gulp syncdb
+
 script:
+  - gulp dev
   - npm test

@@ -4,8 +4,9 @@
   "description": "A flexible and scalable suite for building modern websites, using nodejs with express",
   "main": "index.js",
   "scripts": {
-    "test": "npm run jscs",
-    "jscs": "jscs --verbose ."
+    "test": "npm run jscs && npm run mocha",
+    "jscs": "jscs --verbose .",
+    "mocha": "mocha src/test/spec.js"
   },
   "repository": {
     "type": "git",
