@@ -20,4 +20,5 @@ before_script:
 
 script:
   - gulp prod
+  - pm2 start build/release/app.js
   - npm test
