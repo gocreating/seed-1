@@ -21,3 +21,6 @@ github.pub
 
 # Log
 *.log
+
+# Others
+.DS_Store
