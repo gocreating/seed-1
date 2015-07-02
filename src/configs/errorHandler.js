@@ -8,9 +8,9 @@ module.exports = function(app) {
         break;
       }
       case 'PageNotFoundError': {
-        console.log('Page not found');
+        res.status(err.status);
         res.send('404');
-        return;
+        next();
       }
       default: {
         console.log('Unknown Error');

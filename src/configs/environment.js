@@ -41,7 +41,7 @@ module.exports = function(app) {
    * logger
    */
   app.use(morgan(
-    ':remote-addr ' +
+    ':remote-addr\t' +
     ':status ' +
     ':method ' +
     ':url\t' +
