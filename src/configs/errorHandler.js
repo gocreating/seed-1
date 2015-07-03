@@ -10,7 +10,7 @@ module.exports = function(app) {
       case 'PageNotFoundError': {
         res.status(err.status);
         res.send('404');
-        next();
+        return next();
       }
       default: {
         console.log('Unknown Error');

@@ -2,9 +2,21 @@ var chai = require('chai');
 var expect = chai.expect;
 var request = require('superagent');
 
+var app = require('../app');
+var http = require('http');
+
+var serverPort = 4567;
+before(function(done) {
+  http
+    .createServer(app)
+    .listen(serverPort, function() {
+      done();
+    });
+});
+
 describe('Default', function() {
   describe('Routing', function() {
-    var base = 'http://localhost:5000';
+    var base = 'http://localhost:' + serverPort;
     it('should respond 404 to GET /doesNotExist', function(done) {
       request
         .get(base + '/doesNotExist')
@@ -19,7 +31,7 @@ describe('Default', function() {
 
 describe('User Module', function() {
   describe('Routing', function() {
-    var base = 'http://localhost:5000';
+    var base = 'http://localhost:' + serverPort;
     var paths = [
       '/user/register',
       '/user/login',

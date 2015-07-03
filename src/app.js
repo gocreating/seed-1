@@ -26,3 +26,6 @@ errorHandler(app);
 
 // launch the server
 server(app);
+
+// exports the app for testing
+module.exports = app;

@@ -9,7 +9,6 @@ install:
   - npm install -g esprima-fb@15001.1.0-dev-harmony-fb
   - npm install -g jscs
   - npm install -g mocha
-  - npm install -g pm2
   - npm install -g bower
   - npm install -g gulp
   - npm install
@@ -19,6 +18,4 @@ before_script:
   - gulp syncdb
 
 script:
-  - gulp prod
-  - pm2 start build/release/app.js
   - npm test
