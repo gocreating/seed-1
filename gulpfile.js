@@ -266,6 +266,7 @@ gulp.task('init', function(cb) {
       cb(err);
     }
 
+    var willDropTableNames = ['permission', 'group', 'user'];
     var permNames = ['CREATE_USER', 'DELETE_USER', 'LOGIN', 'POST_ARTICLE'];
     var perms = {};
     var groups = {};
@@ -274,16 +275,30 @@ gulp.task('init', function(cb) {
       function dropDb(callback) {
         gutil.log('Dropping tables...');
 
-        gutil.log('\tgroup...');
-        db.models.group.drop(function(err) {
-          gutil.log('\tFinished');
+        async.eachSeries(
+          willDropTableNames,
+          function iterator(tableName, callback) {
+            gutil.log('\t' + tableName);
 
-          gutil.log('\tpermission...');
-          db.models.permission.drop(function(err) {
-            gutil.log('\tFinished');
+            db.models[tableName].drop(function(err) {
+              gutil.log('\tFinished');
+              callback(err);
+            });
+          }, function() {
             callback(err);
-          });
-        });
+          }
+        );
+
+        // gutil.log('\tgroup...');
+        // db.models.group.drop(function(err) {
+        //   gutil.log('\tFinished');
+
+        //   gutil.log('\tpermission...');
+        //   db.models.permission.drop(function(err) {
+        //     gutil.log('\tFinished');
+        //     callback(err);
+        //   });
+        // });
       },
       function syncDb(callback) {
         gutil.log('Synchronising schemas...');
@@ -318,10 +333,10 @@ gulp.task('init', function(cb) {
           name: 'root',
         }, function(err, groupRoot) {
           groupRoot.addPermission([
-            perms['CREATE_USER'],
-            perms['DELETE_USER'],
-            perms['LOGIN'],
-            perms['POST_ARTICLE'],
+            perms.CREATE_USER,
+            perms.DELETE_USER,
+            perms.LOGIN,
+            perms.POST_ARTICLE,
           ], function(err) {
             gutil.log('\t\tFinished');
             groups['root'] = groupRoot;
@@ -336,9 +351,9 @@ gulp.task('init', function(cb) {
           name: 'admin',
         }, function(err, groupAdmin) {
           groupAdmin.addPermission([
-            perms['CREATE_USER'],
-            perms['LOGIN'],
-            perms['POST_ARTICLE'],
+            perms.CREATE_USER,
+            perms.LOGIN,
+            perms.POST_ARTICLE,
           ], function(err) {
             gutil.log('\t\tFinished');
             groups['admin'] = groupAdmin;
@@ -353,8 +368,8 @@ gulp.task('init', function(cb) {
           name: 'user',
         }, function(err, groupUser) {
           groupUser.addPermission([
-            perms['LOGIN'],
-            perms['POST_ARTICLE'],
+            perms.LOGIN,
+            perms.POST_ARTICLE,
           ], function(err) {
             gutil.log('\t\tFinished');
             groups['user'] = groupUser;
@@ -380,11 +395,10 @@ gulp.task('init', function(cb) {
           if (isExist) {
             gutil.log('\t\tDoes not create since the user already exists');
           } else {
-            // user.setGroup(groups.admin, function(err) {
-              gutil.log(user);
+            user.setGroup(groups.root, function(err) {
               gutil.log('\t\tFinished');
               callback(err);
-            // });
+            });
           }
         });
       },
