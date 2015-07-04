@@ -281,7 +281,7 @@ gulp.task('init', function(cb) {
             gutil.log('\t' + tableName);
 
             db.models[tableName].drop(function(err) {
-              gutil.log('\tFinished');
+              gutil.log('\t\tFinished');
               callback(err);
             });
           }, function() {
