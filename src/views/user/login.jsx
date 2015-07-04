@@ -7,9 +7,15 @@ module.exports = React.createClass({
       <MainLayout>
         <h1>Login</h1>
         <form method="post">
-          <input type="text" name="usernmae" />
-          <input type="password" name="password" />
-          <button type="submit">Login</button>
+          <p>
+            <input type="text" name="username" placeholder="username" />
+          </p>
+          <p>
+            <input type="password" name="password" placeholder="password" />
+          </p>
+          <p>
+            <button type="submit">Login</button>
+          </p>
         </form>
       </MainLayout>
     );

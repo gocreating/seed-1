@@ -27,6 +27,7 @@ module.exports = React.createClass({
           <title>
             {this.props.title}
           </title>
+
           <link rel="stylesheet" type="text/css" href="/css/main.css" />
           <link rel="stylesheet" type="text/css" href="/css/material-ui.css" />
           {styles}
@@ -69,7 +70,6 @@ module.exports = React.createClass({
             </div>
           </Paper>
         </body>
-
         <script src='/js/bundle.js'></script>
       </html>
     );

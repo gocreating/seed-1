@@ -1,5 +1,18 @@
 var DatabaseError = require('../errors/database');
 
+var encodePassword = function(rawPassword) {
+  var crypto = require('crypto');
+  var recursiveLevel = 5;
+  while (recursiveLevel) {
+    rawPassword = crypto
+      .createHash('md5')
+      .update(rawPassword)
+      .digest('hex');
+    recursiveLevel -= 1;
+  }
+  return rawPassword;
+};
+
 module.exports = function(orm, db) {
   var Group = db.models.group;
   var User = db.define('user', {
@@ -38,18 +51,7 @@ module.exports = function(orm, db) {
       if (isExist) {
         return cb(null, true, null);
       } else {
-        // hashing the password
-        var crypto = require('crypto');
-        var passwordHash = newUser.password;
-        var recursiveLevel = 5;
-        while (recursiveLevel) {
-          passwordHash = crypto
-            .createHash('md5')
-            .update(passwordHash)
-            .digest('hex');
-          recursiveLevel -= 1;
-        }
-        newUser.password = passwordHash;
+        newUser.password = encodePassword(newUser.password);
 
         // create new user
         User.create(newUser, function(err, user) {
@@ -69,7 +71,28 @@ module.exports = function(orm, db) {
     });
   };
 
-  User.auth = function(email, password) {
-
+  /**
+   * Authenticate user by `username` and `password`
+   *
+   * @param {string} username
+   *  - The username that will be authenticated
+   *
+   * @param {string} password
+   *  - The raw (not hashed) password that will be authenticated
+   *
+   * @param {function} cb(err, user)
+   *  - The callback function
+   *
+   * @param {object} cb().user
+   *  - Return null if the user is failed to authenticate
+   *  - Return the authenticated user object if successfully authenticate
+   */
+  User.auth = function(username, password, cb) {
+    User.one({
+      username: username,
+      password: encodePassword(password),
+    }, function(err, user) {
+      cb(err, user);
+    });
   };
 };

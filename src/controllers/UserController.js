@@ -30,8 +30,21 @@ module.exports = {
     get: function(req, res) {
       res.render('user/login');
     },
-    post: function(req, res) {
-      res.redirect('/user/profile');
+    post: function(req, res, next) {
+      req.models.user.auth(
+        req.body.username,
+        req.body.password,
+        function(err, user) {
+          if (err) {
+            return next(err);
+          }
+          if (user) {
+            res.redirect('/user/profile');
+          } else {
+            res.render('/user/login');
+          }
+        }
+      );
     },
   },
   logout: function(req, res) {

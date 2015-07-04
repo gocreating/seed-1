@@ -145,7 +145,7 @@ gulp.task('images-prod', function(cb) {
 });
 
 /**
- * compele backend .js files
+ * compile backend .js files
  */
 gulp.task('backend-scripts-dev', function(cb) {
   gulp.src(['src/**/*.js', '!src/assets/**/*.js'])
@@ -163,7 +163,7 @@ gulp.task('backend-scripts-prod', function(cb) {
 });
 
 /**
- * compele backend .jsx view files
+ * compile backend .jsx view files
  */
 gulp.task('backend-views-dev', function(cb) {
   browserify({
@@ -174,7 +174,12 @@ gulp.task('backend-views-dev', function(cb) {
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest('build/debug/assets/js'))
-  .on('end', cb);
+  .on('end', function() {
+    gulp.src(['src/views/**/*.jsx'])
+      .pipe(changed('build/debug/views/'))
+      .pipe(gulp.dest('build/debug/views/'))
+      .on('end', cb);
+  });
 });
 
 gulp.task('backend-views-prod', function(cb) {
@@ -228,7 +233,12 @@ gulp.task('watch', function(cb) {
   gulp.watch('src/assets/img/**/*', ['images-dev']);
 
   // watch other files
-  gulp.watch(['src/**/*', '!src/assets/', '!src/**/*.js'], ['copy-dev']);
+  gulp.watch([
+    'src/**/*',
+    '!src/assets/',
+    '!src/**/*.js',
+    '!src/views/**/*.jsx',
+  ], ['copy-dev']);
 });
 
 /**
@@ -237,6 +247,9 @@ gulp.task('watch', function(cb) {
 gulp.task('nodemon', function(cb) {
   nodemon({
     script: 'build/debug/app.js',
+    // detect .jsx files to reload view files into server
+    // then the dom tree will be synchronous with client-side
+    ext: 'jsx js',
   }).on('start', function() {
     cb();
   });
@@ -248,7 +261,16 @@ gulp.task('nodemon', function(cb) {
 gulp.task('browser-sync', function(cb) {
   browserSync.init(null, {
     proxy: 'localhost:5000',
-    files: ['build/debug/**/*.*'],
+    files: [
+      'build/debug/**/*.*',
+      // to prevent the server-rendered document tree differentiate with
+      // the client-rendered document tree, we have to unwatch bundle.js
+      '!build/debug/assets/js/bundle.js',
+    ],
+    // reloadDebounce: 500,
+    // reloadDelay: 4000,
+    injectChanges: false,
+    // online: false,
     port: 7000,
   });
 });
