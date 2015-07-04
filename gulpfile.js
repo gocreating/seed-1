@@ -268,13 +268,21 @@ gulp.task('init', function(cb) {
 
     var permNames = ['CREATE_USER', 'DELETE_USER', 'LOGIN', 'POST_ARTICLE'];
     var perms = {};
+    var groups = {};
 
     async.series([
       function dropDb(callback) {
         gutil.log('Dropping tables...');
-        db.drop(function(err) {
+
+        gutil.log('\tgroup...');
+        db.models.group.drop(function(err) {
           gutil.log('\tFinished');
-          callback(err);
+
+          gutil.log('\tpermission...');
+          db.models.permission.drop(function(err) {
+            gutil.log('\tFinished');
+            callback(err);
+          });
         });
       },
       function syncDb(callback) {
@@ -316,6 +324,7 @@ gulp.task('init', function(cb) {
             perms['POST_ARTICLE'],
           ], function(err) {
             gutil.log('\t\tFinished');
+            groups['root'] = groupRoot;
             callback(err);
           });
         });
@@ -332,6 +341,7 @@ gulp.task('init', function(cb) {
             perms['POST_ARTICLE'],
           ], function(err) {
             gutil.log('\t\tFinished');
+            groups['admin'] = groupAdmin;
             callback(err);
           });
         });
@@ -347,8 +357,35 @@ gulp.task('init', function(cb) {
             perms['POST_ARTICLE'],
           ], function(err) {
             gutil.log('\t\tFinished');
+            groups['user'] = groupUser;
             callback(err);
           });
+        });
+      },
+      function createUsers(callback) {
+        gutil.log('Creating users...');
+        callback(null);
+      },
+      function createUserRoot(callback) {
+        gutil.log('\troot');
+
+        // create `root` user
+        var rootUser = {
+          username: 'root',
+          password: 'root',
+          isVerified: true,
+        };
+
+        db.models.user.register(rootUser, function(err, isExist, user) {
+          if (isExist) {
+            gutil.log('\t\tDoes not create since the user already exists');
+          } else {
+            // user.setGroup(groups.admin, function(err) {
+              gutil.log(user);
+              gutil.log('\t\tFinished');
+              callback(err);
+            // });
+          }
         });
       },
     ], function done(err, results) {
