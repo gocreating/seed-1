@@ -267,10 +267,6 @@ gulp.task('browser-sync', function(cb) {
       // the client-rendered document tree, we have to unwatch bundle.js
       '!build/debug/assets/js/bundle.js',
     ],
-    // reloadDebounce: 500,
-    // reloadDelay: 4000,
-    injectChanges: false,
-    // online: false,
     port: 7000,
   });
 });
@@ -310,17 +306,6 @@ gulp.task('init', function(cb) {
             callback(err);
           }
         );
-
-        // gutil.log('\tgroup...');
-        // db.models.group.drop(function(err) {
-        //   gutil.log('\tFinished');
-
-        //   gutil.log('\tpermission...');
-        //   db.models.permission.drop(function(err) {
-        //     gutil.log('\tFinished');
-        //     callback(err);
-        //   });
-        // });
       },
       function syncDb(callback) {
         gutil.log('Synchronising schemas...');
