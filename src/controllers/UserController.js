@@ -26,11 +26,17 @@ module.exports = {
       });
     },
   },
-  login: {
-    get: function(req, res) {
-      res.render('user/login');
-    },
-    post: function(req, res, next) {
+  login: function(req, res) {
+    res.render('user/login');
+  },
+  logout: function(req, res) {
+    res.redirect('/');
+  },
+  profile: function(req, res) {
+    res.render('user/profile');
+  },
+  api: {
+    login: function(req, res, next) {
       req.models.user.auth(
         req.body.username,
         req.body.password,
@@ -39,22 +45,18 @@ module.exports = {
             return next(err);
           }
           if (user) {
-            res.redirect('/user/profile');
+            res.send({
+              isError: false,
+              errors: [],
+            });
           } else {
-            res.render('/user/login');
+            res.send({
+              isError: true,
+              errors: [],
+            });
           }
         }
       );
     },
-  },
-  logout: function(req, res) {
-    res.redirect('/');
-  },
-  profile: function(req, res) {
-    res.render('user/profile');
-  },
-  test: function(req, res) {
-    var User = require('../models/UserModel');
-    res.send('nothing');
   },
 };
