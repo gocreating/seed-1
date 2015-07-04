@@ -15,7 +15,7 @@ install:
   - bower install
 
 before_script:
-  - gulp syncdb
+  - gulp init
 
 script:
   - npm test
