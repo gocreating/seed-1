@@ -24,7 +24,7 @@ Then you can start using the CLI operations
 ```
 $ npm install
 $ bower install
-$ gulp syncdb
+$ gulp init
 $ gulp dev
 ```
 
@@ -40,12 +40,12 @@ $ gulp dev
    $ bower install
    ```
 
-3. Synchronize database
+3. Initialize database
 
-   According to our testing result, if you are using `mongodb`, this step is optional. If you are using `sqlite`, then this step is necessary, or you will get the **DatabaseError** when running the app.
+   According to our testing result, if you are using `mongodb`, this step is optional. If you are using `sqlite`, then this step is required, or you will get the **DatabaseError** when running the app.
 
    ```
-   $ gulp syncdb
+   $ gulp init
    ```
 
 4. Run as debug/production mode

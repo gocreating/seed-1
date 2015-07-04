@@ -1,7 +1,6 @@
 var DatabaseError = require('../errors/database');
 
 module.exports = function(orm, db) {
-  // var Group = require('./GroupModel')(orm, db);
   var Group = db.models.group;
   var User = db.define('user', {
     username:   {type: 'text', size: 25},
@@ -60,7 +59,7 @@ module.exports = function(orm, db) {
           }
 
           Group
-            .find({name: 'default user'})
+            .find({name: 'user'})
             .first(function(err, group) {
               user.setGroup(group, function(err) {
                 return cb(null, false, user);
@@ -71,7 +70,7 @@ module.exports = function(orm, db) {
     });
   };
 
-  User.login = function(email, password) {
+  User.auth = function(email, password) {
 
   };
 };

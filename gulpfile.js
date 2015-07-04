@@ -23,6 +23,7 @@ var globify       = require('require-globify');
 var preprocess    = require('gulp-preprocess');
 var preprocessify = require('preprocessify');
 var babel         = require('gulp-babel');
+var gutil         = require('gulp-util');
 
 /**
  * error handler
@@ -253,28 +254,85 @@ gulp.task('browser-sync', function(cb) {
 });
 
 /**
- * synchronize database
+ * Initialize database
  */
-gulp.task('syncdb', function(cb) {
+gulp.task('init', function(cb) {
+  var async = require('async');
   var models = require('./src/models/');
   models(function(err, db) {
     if (err) {
-      return gulp.src('')
-        .pipe(notify('[Sync Fail] Cannot connect to database'));
+      gutil.log('Cannot connect to database');
+      cb(err);
     }
+
     db.sync(function() {
-      // add dummy data here
-      db.models.group.create({
-        name: 'default user',
-      }, function(err, group) {
+      var permNames = ['can_login', 'can_post_article', 'a', 'b', 'c', 'd', 'e', 'f'];
+      var perms = {};
 
-      });
+      gutil.log('Initialize permissions');
+      async.eachSeries(permNames, function iterator(permName, callback) {
+        db.models.permission.create({
+          name: permName,
+        }, function(err, perm) {
+          gutil.log('\t' + permName);
+          perms[permName] = perm;
+          callback(err);
+        });
+      }, function afterCreatePermissions() {
+        gutil.log('Initialize groups');
 
-      db.models.group.create({
-        name: 'vip user',
-      }, function(err, group) {
+        async.series([
+          function(callback) {
+            // create `root` group
+            db.models.group.create({
+              name: 'root',
+            }, function adferCreateGroup(err, groupRoot) {
+              groupRoot.addPermission([
+                perms['can_login'],
+                perms['can_post_article'],
+              ], function(err) {
+                gutil.log('\t' + 'root');
+                gutil.log(groupRoot);
+                callback(err);
+              });
+            });
+          },
+          function(callback) {
+            // create `admin` group
+            db.models.group.create({
+              name: 'admin',
+            }, function adferCreateGroup(err, groupAdmin) {
+              groupAdmin.addPermission([
+                perms['can_login'],
+                perms['can_post_article'],
+              ], function(err) {
+                gutil.log('\t' + 'admin');
+                gutil.log(groupAdmin);
+                callback(err);
+              });
+            });
+          },
+          function(callback) {
+            // create `user` group
+            db.models.group.create({
+              name: 'user',
+            }, function adferCreateGroup(err, groupUser) {
+              // callback(err);
+              groupUser.addPermission([
+                perms['can_login'],
+                perms['can_post_article'],
+              ], function(err) {
+                gutil.log('\t' + 'user');
+                gutil.log(groupUser);
+                callback(err);
+              });
+            });
+          },
+        ], function adferCreateGroup(err, results) {
+          cb(err, results);
+        });
 
-      });
+      }); // end of afterCreatePermissions
     });
   });
 });

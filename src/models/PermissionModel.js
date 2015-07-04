@@ -1,10 +1,7 @@
 var DatabaseError = require('../errors/database');
 
 module.exports = function(orm, db) {
-  var Permission = db.models.permission;
-  var Group = db.define('group', {
+  var Permission = db.define('permission', {
     name: {type: 'text', size: 40},
   });
-
-  Group.hasMany('permission', Permission);
 };

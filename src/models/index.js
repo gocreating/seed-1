@@ -4,6 +4,7 @@ var settings = require('../configs/settings');
 var connection = null;
 
 function setup(db, cb) {
+  require('./PermissionModel')(orm, db);
   require('./GroupModel')(orm, db);
   require('./UserModel')(orm, db);
   return cb(null, db);
