@@ -70,8 +70,14 @@ module.exports = React.createClass({
               {this.props.children}
             </div>
           </Paper>
+          <script src='/js/bundle.js'></script>
+          <script
+            type="text/javascript"
+            id="__bs_script__"
+            src={
+              'http://localhost:7000/browser-sync/browser-sync-client.2.7.1.js'
+            }/>
         </body>
-        <script src='/js/bundle.js'></script>
       </html>
     );
   },

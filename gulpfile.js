@@ -270,6 +270,12 @@ gulp.task('nodemon', function(cb) {
     // detect .jsx files to reload view files into server
     // then the dom tree will be synchronous with client-side
     ext: 'jsx js',
+    ignore: [
+      '*',
+      'node_modules/**/*',
+      'src/**/*',
+      'build/debug/assets/js/bundle.js',
+    ],
   }).on('start', function() {
     if (!started) {
       cb();
@@ -284,16 +290,15 @@ gulp.task('nodemon', function(cb) {
 gulp.task('browser-sync', function(cb) {
   var bs = browserSync.create();
   bs.init(null, {
-    proxy: 'localhost:5000',
     files: [
       'build/debug/**/*.*',
       // to prevent the server-rendered document tree differentiate with
       // the client-rendered document tree, we have to unwatch bundle.js
       '!build/debug/assets/js/bundle.js',
     ],
-    online: false,
-    injectChanges: false,
     port: 7000,
+    logLevel: 'silent',
+    injectChanges: false,
   });
   cb();
 });
