@@ -170,7 +170,18 @@ gulp.task('backend-views-dev', function(cb) {
     debug: true,
     entries: './src/assets/js/index.js',
     transform: [reactify, globify],
+    shim: {
+      jQuery: 'global:$',
+      // materialUi: {
+      //   path: './node_modules/material-ui/lib/',
+      //   exports: 'mui',
+      // },
+    },
   })
+  // .require('./src/assets/lib/material-ui/src/index.js', {
+  // .require('./node_modules/material-ui/lib/', {
+  //   expose: 'mui',
+  // })
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(gulp.dest('build/debug/assets/js'))
@@ -250,9 +261,9 @@ gulp.task('nodemon', function(cb) {
     // detect .jsx files to reload view files into server
     // then the dom tree will be synchronous with client-side
     ext: 'jsx js',
-  }).on('start', function() {
-    cb();
-  });
+  })
+    .on('start', cb)
+    .on('restart', cb);
 });
 
 /**

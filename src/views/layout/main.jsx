@@ -31,7 +31,6 @@ module.exports = React.createClass({
           <link rel="stylesheet" type="text/css" href="/css/main.css" />
           <link rel="stylesheet" type="text/css" href="/css/material-ui.css" />
           {styles}
-
           <script src="https://code.jquery.com/jquery-2.1.4.min.js" />
         </head>
 
