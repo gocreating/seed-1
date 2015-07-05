@@ -259,21 +259,27 @@ gulp.task('watch', function(cb) {
  * run the server
  */
 gulp.task('nodemon', function(cb) {
-  nodemon({
+  var started = false;
+
+  return nodemon({
     script: 'build/debug/app.js',
     // detect .jsx files to reload view files into server
     // then the dom tree will be synchronous with client-side
     ext: 'jsx js',
-  })
-    .on('start', cb)
-    .on('restart', cb);
+  }).on('start', function() {
+    if (!started) {
+      cb();
+      started = true;
+    }
+  });
 });
 
 /**
  * livereload and synchronize the browser operations
  */
 gulp.task('browser-sync', function(cb) {
-  browserSync.init(null, {
+  var bs = browserSync.create();
+  bs.init(null, {
     proxy: 'localhost:5000',
     files: [
       'build/debug/**/*.*',
@@ -282,8 +288,10 @@ gulp.task('browser-sync', function(cb) {
       '!build/debug/assets/js/bundle.js',
     ],
     online: false,
+    injectChanges: false,
     port: 7000,
   });
+  cb();
 });
 
 /**
