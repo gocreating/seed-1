@@ -24,6 +24,7 @@ var preprocess    = require('gulp-preprocess');
 var preprocessify = require('preprocessify');
 var babel         = require('gulp-babel');
 var gutil         = require('gulp-util');
+var runSequence   = require('run-sequence');
 
 /**
  * error handler
@@ -278,6 +279,7 @@ gulp.task('browser-sync', function(cb) {
       // the client-rendered document tree, we have to unwatch bundle.js
       '!build/debug/assets/js/bundle.js',
     ],
+    online: false,
     port: 7000,
   });
 });
@@ -468,18 +470,42 @@ gulp.task('default', function() {
 /**
  * Development/Debug mode
  */
-gulp.task('dev', ['clean-dev'], function() {
-  gulp.start(
+gulp.task('dev', /*['clean-dev'],*/ function() {
+  // async.series([
+  //   function(callback) {
+
+  //   },
+  // ], function done(err, results) {
+
+  // });
+  runSequence(
+    'clean-dev',
     'styles-dev',
     'frontend-scripts-dev',
     'images-dev',
     'backend-scripts-dev',
     'backend-views-dev',
     'copy-dev',
-    'watch',
     'nodemon',
-    'browser-sync'
+    [
+      'watch',
+      'browser-sync',
+    ]
+    // function() {
+    //   gulp.start('watch');
+    // }
   );
+  // gulp.start(
+  //   'styles-dev',
+  //   'frontend-scripts-dev',
+  //   'images-dev',
+  //   'backend-scripts-dev',
+  //   'backend-views-dev',
+  //   'copy-dev',
+  //   'watch',
+  //   'nodemon',
+  //   'browser-sync'
+  // );
 });
 
 /**

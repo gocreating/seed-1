@@ -70,6 +70,7 @@
     "reactify": "^1.1.0",
     "request": "^2.57.0",
     "require-globify": "^1.2.1",
+    "run-sequence": "^1.1.1",
     "superagent": "^1.2.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
