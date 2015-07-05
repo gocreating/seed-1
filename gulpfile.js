@@ -257,6 +257,10 @@ gulp.task('watch', function(cb) {
 
 /**
  * run the server
+ *
+ * ref: https://gist.github.com/sogko/b53d33d4f3b40d3b4b2e
+ * - this gist shows how to prevent nodemon from showing errors
+ *   when starting or restarting app
  */
 gulp.task('nodemon', function(cb) {
   var started = false;
