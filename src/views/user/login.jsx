@@ -37,7 +37,7 @@ module.exports = React.createClass({
 
     return (
       <MainLayout>
-        <h1>Login</h1>
+        <h1>Loginsdfdsfddfds</h1>
         <form onSubmit={this.handleSubmit}>
           {ErrorPanel}
           <p>

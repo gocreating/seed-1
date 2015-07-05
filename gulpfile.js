@@ -251,6 +251,8 @@ gulp.task('watch', function(cb) {
     '!src/**/*.js',
     '!src/views/**/*.jsx',
   ], ['copy-dev']);
+
+  cb();
 });
 
 /**
@@ -470,14 +472,7 @@ gulp.task('default', function() {
 /**
  * Development/Debug mode
  */
-gulp.task('dev', /*['clean-dev'],*/ function() {
-  // async.series([
-  //   function(callback) {
-
-  //   },
-  // ], function done(err, results) {
-
-  // });
+gulp.task('dev', /*['clean-dev'],*/ function(cb) {
   runSequence(
     'clean-dev',
     'styles-dev',
@@ -486,14 +481,12 @@ gulp.task('dev', /*['clean-dev'],*/ function() {
     'backend-scripts-dev',
     'backend-views-dev',
     'copy-dev',
+    'watch',
     'nodemon',
-    [
-      'watch',
-      'browser-sync',
-    ]
-    // function() {
-    //   gulp.start('watch');
-    // }
+    'browser-sync',
+    function() {
+      cb();
+    }
   );
   // gulp.start(
   //   'styles-dev',
