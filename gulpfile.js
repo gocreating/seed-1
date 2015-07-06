@@ -27,6 +27,13 @@ var gutil         = require('gulp-util');
 var runSequence   = require('run-sequence');
 
 /**
+ * Custom configurations
+ */
+
+// if livereload not working properly, please increase the delay
+var BROWSER_SYNC_RELOAD_DELAY = 500;
+
+/**
  * error handler
  */
 var handleErrors = function() {
@@ -167,31 +174,37 @@ gulp.task('backend-scripts-prod', function(cb) {
  * compile backend .jsx view files
  */
 gulp.task('backend-views-dev', function(cb) {
-  browserify({
-    debug: true,
-    entries: './src/assets/js/index.js',
-    transform: [reactify, globify],
-    shim: {
-      jQuery: 'global:$',
-      // materialUi: {
-      //   path: './node_modules/material-ui/lib/',
-      //   exports: 'mui',
-      // },
+  var async = require('async');
+  async.series([
+    function copyJSX(callback) {
+      gulp.src(['src/views/**/*.jsx'])
+        .pipe(changed('build/debug/views/'))
+        .pipe(gulp.dest('build/debug/views/'))
+        .on('end', callback);
     },
-  })
-  // .require('./src/assets/lib/material-ui/src/index.js', {
-  // .require('./node_modules/material-ui/lib/', {
-  //   expose: 'mui',
-  // })
-  .bundle()
-  .pipe(source('bundle.js'))
-  .pipe(gulp.dest('build/debug/assets/js'))
-  .on('end', function() {
-    gulp.src(['src/views/**/*.jsx'])
-      .pipe(changed('build/debug/views/'))
-      .pipe(gulp.dest('build/debug/views/'))
-      .on('end', cb);
-  });
+    function browserifyPack(callback) {
+      browserify({
+        debug: true,
+        entries: './src/assets/js/index.js',
+        transform: [reactify, globify],
+        shim: {
+          jQuery: 'global:$',
+          // materialUi: {
+          //   path: './node_modules/material-ui/lib/',
+          //   exports: 'mui',
+          // },
+        },
+      })
+      // .require('./src/assets/lib/material-ui/src/index.js', {
+      // .require('./node_modules/material-ui/lib/', {
+      //   expose: 'mui',
+      // })
+      .bundle()
+      .pipe(source('bundle.js'))
+      .pipe(gulp.dest('build/debug/assets/js'))
+      .on('end', callback);
+    },
+  ], cb);
 });
 
 gulp.task('backend-views-prod', function(cb) {
@@ -271,16 +284,26 @@ gulp.task('nodemon', function(cb) {
     // then the dom tree will be synchronous with client-side
     ext: 'jsx js',
     ignore: [
-      '*',
+      'gulpfile.js',
       'node_modules/**/*',
       'src/**/*',
       'build/debug/assets/js/bundle.js',
+      'build/release',
+      'build/uglyRelease',
     ],
-  }).on('start', function() {
+  })
+  .on('start', function() {
     if (!started) {
       cb();
       started = true;
     }
+  })
+  .on('restart', function() {
+    setTimeout(function reload() {
+      browserSync.reload({
+        stream: false,
+      });
+    }, BROWSER_SYNC_RELOAD_DELAY);
   });
 });
 
@@ -288,19 +311,19 @@ gulp.task('nodemon', function(cb) {
  * livereload and synchronize the browser operations
  */
 gulp.task('browser-sync', function(cb) {
-  var bs = browserSync.create();
-  bs.init(null, {
+  // var bs = browserSync.create();
+  browserSync.init(null, {
     files: [
       'build/debug/**/*.*',
       // to prevent the server-rendered document tree differentiate with
       // the client-rendered document tree, we have to unwatch bundle.js
+      '!build/debug/views/**/*.jsx',
       '!build/debug/assets/js/bundle.js',
     ],
     port: 7000,
-    logLevel: 'silent',
-    injectChanges: false,
+    logLevel: 'debug',
+    injectChanges: true,
   });
-  cb();
 });
 
 /**
