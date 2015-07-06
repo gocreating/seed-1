@@ -5,7 +5,6 @@ var gulp          = require('gulp');
 var less          = require('gulp-less');
 var autoprefixer  = require('gulp-autoprefixer');
 var minifycss     = require('gulp-minify-css');
-var jshint        = require('gulp-jshint');
 var uglify        = require('gulp-uglify');
 // var imagemin      = require('gulp-imagemin');
 var rename        = require('gulp-rename');
@@ -21,7 +20,6 @@ var buffer        = require('vinyl-buffer');
 var reactify      = require('reactify');
 var globify       = require('require-globify');
 var preprocess    = require('gulp-preprocess');
-var preprocessify = require('preprocessify');
 var babel         = require('gulp-babel');
 var gutil         = require('gulp-util');
 var runSequence   = require('run-sequence');
@@ -31,7 +29,7 @@ var runSequence   = require('run-sequence');
  */
 
 // if livereload not working properly, please increase the delay
-var BROWSER_SYNC_RELOAD_DELAY = 500;
+var BROWSER_SYNC_RELOAD_DELAY = 50;
 
 /**
  * error handler
@@ -108,16 +106,12 @@ gulp.task('frontend-scripts-dev', function(cb) {
   gulp.src('src/assets/js/**/*.js')
     .pipe(changed('build/debug/assets/js'))
     .pipe(babel())
-    // .pipe(jshint('.jshintrc'))
-    // .pipe(jshint.reporter('default'))
     .pipe(gulp.dest('build/debug/assets/js'))
     .on('end', cb);
 });
 
 gulp.task('frontend-scripts-prod', function(cb) {
   gulp.src('src/assets/js/**/*.js')
-    // .pipe(jshint('.jshintrc'))
-    // .pipe(jshint.reporter('default'))
     .pipe(babel())
     // .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
@@ -189,16 +183,8 @@ gulp.task('backend-views-dev', function(cb) {
         transform: [reactify, globify],
         shim: {
           jQuery: 'global:$',
-          // materialUi: {
-          //   path: './node_modules/material-ui/lib/',
-          //   exports: 'mui',
-          // },
         },
       })
-      // .require('./src/assets/lib/material-ui/src/index.js', {
-      // .require('./node_modules/material-ui/lib/', {
-      //   expose: 'mui',
-      // })
       .bundle()
       .pipe(source('bundle.js'))
       .pipe(gulp.dest('build/debug/assets/js'))
@@ -300,9 +286,7 @@ gulp.task('nodemon', function(cb) {
   })
   .on('restart', function() {
     setTimeout(function reload() {
-      browserSync.reload({
-        stream: false,
-      });
+      browserSync.reload();
     }, BROWSER_SYNC_RELOAD_DELAY);
   });
 });
@@ -311,17 +295,17 @@ gulp.task('nodemon', function(cb) {
  * livereload and synchronize the browser operations
  */
 gulp.task('browser-sync', function(cb) {
-  // var bs = browserSync.create();
   browserSync.init(null, {
     files: [
       'build/debug/**/*.*',
       // to prevent the server-rendered document tree differentiate with
-      // the client-rendered document tree, we have to unwatch bundle.js
+      // the client-rendered document tree, we have to unwatch view files
+      // on both server and client side
       '!build/debug/views/**/*.jsx',
       '!build/debug/assets/js/bundle.js',
     ],
     port: 7000,
-    logLevel: 'debug',
+    logLevel: 'info',
     injectChanges: true,
   });
 });
@@ -512,7 +496,7 @@ gulp.task('default', function() {
 /**
  * Development/Debug mode
  */
-gulp.task('dev', /*['clean-dev'],*/ function(cb) {
+gulp.task('dev', function(cb) {
   runSequence(
     'clean-dev',
     'styles-dev',
@@ -528,17 +512,6 @@ gulp.task('dev', /*['clean-dev'],*/ function(cb) {
       cb();
     }
   );
-  // gulp.start(
-  //   'styles-dev',
-  //   'frontend-scripts-dev',
-  //   'images-dev',
-  //   'backend-scripts-dev',
-  //   'backend-views-dev',
-  //   'copy-dev',
-  //   'watch',
-  //   'nodemon',
-  //   'browser-sync'
-  // );
 });
 
 /**
