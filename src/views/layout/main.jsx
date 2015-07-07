@@ -32,6 +32,8 @@ module.exports = React.createClass({
           <link rel="stylesheet" type="text/css" href="/css/material-ui.css" />
           {styles}
           <script src="https://code.jquery.com/jquery-2.1.4.min.js" />
+          <script
+            src="//cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js" />
         </head>
 
         <body>
@@ -71,6 +73,7 @@ module.exports = React.createClass({
             </div>
           </Paper>
           <script src='/js/bundle.js'></script>
+          <script src='/js/userModule.js'></script>
           <script
             type="text/javascript"
             id="__bs_script__"

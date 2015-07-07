@@ -8,11 +8,10 @@ var TokenInvalidError = require('../errors/tokenInvalid');
 module.exports = {
   middleware: {
     tokenParser: function(req, res, next) {
-      var bearerHeader = req.headers['authorization'];
+      var bearerToken = req.headers['authorization'];
 
       // token exist, parse it
-      if (typeof bearerHeader !== 'undefined') {
-        var bearerToken = bearerHeader.split(' ')[1];
+      if (bearerToken) {
 
         // well-formed token
         try {
@@ -34,6 +33,7 @@ module.exports = {
 
         // malformed token
         } catch (err) {
+          console.log(err);
           throw new TokenInvalidError();
         }
 

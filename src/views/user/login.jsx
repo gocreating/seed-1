@@ -17,7 +17,8 @@ module.exports = React.createClass({
             isError: true,
           });
         } else {
-          // window.location = '/user/profile';
+          userModule.setToken(res.data.bearerToken);
+          window.location = '/user/profile';
         }
       });
   },
