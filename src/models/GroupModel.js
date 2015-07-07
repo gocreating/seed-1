@@ -1,4 +1,4 @@
-var DatabaseError = require('../errors/database');
+var DatabaseError = require('../errors/Database');
 
 module.exports = function(orm, db) {
   var Permission = db.models.permission;

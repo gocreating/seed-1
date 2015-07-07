@@ -22,11 +22,16 @@ module.exports = function(app) {
     // send the error
     if (req.xhr || req.get('content-type') == 'application/json') {
       res.json({
-        message: err.message,
+        errors: [
+          {
+            title: err.title || '',
+            detail: err.detail || '',
+          },
+        ],
       });
     } else {
       res.render('error/index', {
-        message: err.message,
+        message: err.title,
         stack: err.stack,
       });
     }

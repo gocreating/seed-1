@@ -10,6 +10,8 @@ var passport = require('passport');
 // Store session in mysql database
 // var SessionStore = require('express-mysql-session');
 
+var userModule = require('../modules/UserModule');
+
 module.exports = function(app) {
   /**
    * view engine setup
@@ -52,12 +54,19 @@ module.exports = function(app) {
   /**
    * parser
    */
+
+  // form value parser
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({
     extended: false,
   }));
 
-  // app.use(cookieParser());
+  // cookie parser
+  app.use(cookieParser());
+
+  // token parser
+  app.use(userModule.middleware.tokenParser);
+
   // // parse session (req.session)
   // app.use(session({
   //   secret: config.secret.sessionSecret,

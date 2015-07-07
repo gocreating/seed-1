@@ -11,12 +11,13 @@ module.exports = React.createClass({
         password: $('input[name=password]').val(),
       })
       .done(function(res) {
-        if (res.isError) {
+        console.log(res);
+        if (res.errors.length !== 0) {
           component.setState({
             isError: true,
           });
         } else {
-          window.location = '/user/profile';
+          // window.location = '/user/profile';
         }
       });
   },

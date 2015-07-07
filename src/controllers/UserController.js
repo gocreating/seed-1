@@ -1,3 +1,5 @@
+var userModule = require('../modules/UserModule');
+
 module.exports = {
   register: {
     get: function(req, res) {
@@ -45,14 +47,21 @@ module.exports = {
             return next(err);
           }
           if (user) {
-            res.send({
-              isError: false,
+            var bearerToken = userModule.generateBearerToken(user);
+            res.json({
+              data: {
+                bearerToken: bearerToken,
+              },
               errors: [],
             });
           } else {
-            res.send({
-              isError: true,
-              errors: [],
+            res.json({
+              errors: [
+                {
+                  title: 'cannot login',
+                  detail: 'either the username or the password is wrong',
+                },
+              ],
             });
           }
         }
