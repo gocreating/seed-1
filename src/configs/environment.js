@@ -10,7 +10,7 @@ var passport = require('passport');
 // Store session in mysql database
 // var SessionStore = require('express-mysql-session');
 
-var userModule = require('../modules/UserModule');
+var userModule = require('../modules/userModule');
 
 module.exports = function(app) {
   /**
