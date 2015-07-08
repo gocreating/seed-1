@@ -8,6 +8,11 @@ var http = require('http');
 var serverPort = 4567;
 var base = 'http://localhost:' + serverPort;
 
+var loginUser = {
+  username: 'root',
+  password: 'root',
+};
+
 before(function(done) {
   http
     .createServer(app)
@@ -31,27 +36,68 @@ describe('Default', function() {
 });
 
 describe('User Module', function() {
-  describe('Routing', function() {
-    var routes = [
-      ['/user/register', 200],
-      ['/user/login',    200],
-      ['/user/logout',   200],
-      ['/user/profile',  401], // unauthorized status before login
+  describe('default routing', function() {
+    var paths = [
+      '/user/register',
+      '/user/login',
+      '/user/logout',
     ];
 
-    routes.forEach(function(route) {
+    paths.forEach(function(path) {
       it(
-        'should respond ' +
-        route[1] +
-        ' to GET ' +
-        route[0],
-
+        'should respond 200 to GET ' + path,
         function(done) {
           request
-            .get(base + route[0])
+            .get(base + path)
             .end(function(err, res) {
               expect(res).to.not.be.undefined;
-              expect(res.status).to.equal(route[1]);
+              expect(res.status).to.equal(200);
+              done();
+            });
+        }
+      );
+    });
+  });
+
+  describe('login required routing', function() {
+    var token;
+    var paths = [
+      '/user/profile',
+    ];
+
+    before(function(done) {
+      request
+        .post(base + '/api/user/login')
+        .send(loginUser)
+        .end(function(err, res) {
+          token = res.body.data.bearerToken;
+          done();
+        });
+    });
+
+    paths.forEach(function(path) {
+      it(
+        'should respond 401 to GET ' + path + ' before login',
+        function(done) {
+          request
+            .get(base + path)
+            .end(function(err, res) {
+              expect(res).to.not.be.undefined;
+              expect(res.status).to.equal(401);
+              done();
+            });
+        }
+      );
+
+      it(
+        'should respond 200 to GET ' + path + ' after login',
+        function(done) {
+          request
+            .get(base + path)
+            .set('authorization', 'Bearer ' + token)
+            .end(function(err, res) {
+              expect(res).to.not.be.undefined;
+              expect(res.status).to.equal(200);
               done();
             });
         }
@@ -62,11 +108,6 @@ describe('User Module', function() {
   describe('API', function() {
     describe('/api/user/login', function() {
       it('should retrieve a valid token', function(done) {
-        var loginUser = {
-          username: 'root',
-          password: 'root',
-        };
-
         request
           .post(base + '/api/user/login')
           .send(loginUser)
