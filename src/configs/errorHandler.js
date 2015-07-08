@@ -13,7 +13,10 @@ module.exports = function(app) {
         return next();
       }
       case 'unauthorize': {
-        break;
+        res.render('error/unauthorize', {
+          detail: err.detail,
+        });
+        return next();
       }
       default: {
         console.log('Unknown Error:', err.name);
