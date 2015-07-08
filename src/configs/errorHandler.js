@@ -13,6 +13,7 @@ module.exports = function(app) {
         return next();
       }
       case 'unauthorize': {
+        res.status(err.status);
         res.render('error/unauthorize', {
           detail: err.detail,
         });
