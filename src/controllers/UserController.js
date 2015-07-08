@@ -48,6 +48,7 @@ module.exports = {
           }
           if (user) {
             var bearerToken = userModule.generateBearerToken(user);
+            res.cookie('token', bearerToken);
             res.json({
               data: {
                 bearerToken: bearerToken,

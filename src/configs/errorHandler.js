@@ -13,7 +13,8 @@ module.exports = function(app) {
         return next();
       }
       default: {
-        console.log('Unknown Error');
+        console.log('Unknown Error:', err.name);
+        console.log(err.stack);
       }
     }
 

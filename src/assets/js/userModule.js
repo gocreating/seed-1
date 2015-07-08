@@ -2,15 +2,15 @@ var userModule;
 
 $(function() {
   // private
-  var injectHeader = function(token) {
-    if (token) {
-      $.ajaxSetup({
-        headers: {
-          authorization: token,
-        },
-      });
-    }
-  };
+  // var injectHeader = function(token) {
+  //   if (token) {
+  //     $.ajaxSetup({
+  //       headers: {
+  //         authorization: 'Bearer ' + token,
+  //       },
+  //     });
+  //   }
+  // };
 
   // exposed
   userModule = {
@@ -19,7 +19,7 @@ $(function() {
     },
     setToken: function(token) {
       $.cookie('token', token);
-      injectHeader(userModule.getToken());
+      // injectHeader(userModule.getToken());
     },
   };
 
@@ -27,5 +27,5 @@ $(function() {
   console.log('=== user module ===');
   var token = userModule.getToken();
   console.log('token:', token);
-  injectHeader(token);
+  // injectHeader(token);
 });

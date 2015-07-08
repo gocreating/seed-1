@@ -65,7 +65,7 @@ module.exports = function(app) {
   app.use(cookieParser());
 
   // token parser
-  app.use(userModule.middleware.tokenParser);
+  app.use(userModule.middleware.tokenParser());
 
   // // parse session (req.session)
   // app.use(session({
