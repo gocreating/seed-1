@@ -309,6 +309,7 @@ gulp.task('browser-sync', function(cb) {
     port: 7000,
     logLevel: 'info',
     injectChanges: true,
+    logSnippet: false,
   });
 });
 
