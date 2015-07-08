@@ -31,7 +31,7 @@ module.exports = {
       if (!opts) {
         opts = {};
       }
-      var cookieKey = opts.cookieKey || 'token';
+      var cookieKey = opts.cookieKey || 'access_token';
       var queryKey  = opts.queryKey  || 'access_token';
       var bodyKey   = opts.bodyKey   || 'access_token';
       var headerKey = opts.headerKey || 'Bearer';
@@ -41,7 +41,6 @@ module.exports = {
 
         // extract token from cookie
         if (req.cookies && req.cookies[cookieKey]) {
-          console.log(req.cookies);
           bearerToken = req.cookies[cookieKey];
 
         // extract token from header
@@ -85,7 +84,6 @@ module.exports = {
 
           // malformed token
           } catch (err) {
-            console.log(err);
             throw new TokenInvalidError();
           }
 
@@ -130,5 +128,11 @@ module.exports = {
     }, settings.user.bearerToken.secret);
 
     return token;
+  },
+  login: function(req, res, token) {
+    res.cookie('access_token', token);
+  },
+  logout: function(req, res) {
+    res.clearCookie('access_token');
   },
 };

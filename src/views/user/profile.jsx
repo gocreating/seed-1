@@ -6,7 +6,7 @@ module.exports = React.createClass({
     return (
       <MainLayout>
         <h1>Profile</h1>
-        This page requires login
+        You can see this page only when you are logged in
       </MainLayout>
     );
   },

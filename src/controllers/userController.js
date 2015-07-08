@@ -32,6 +32,7 @@ module.exports = {
     res.render('user/login');
   },
   logout: function(req, res) {
+    userModule.logout(req, res);
     res.redirect('/');
   },
   profile: function(req, res) {
@@ -48,7 +49,7 @@ module.exports = {
           }
           if (user) {
             var bearerToken = userModule.generateBearerToken(user);
-            res.cookie('token', bearerToken);
+            userModule.login(req, res, bearerToken);
             res.json({
               data: {
                 bearerToken: bearerToken,

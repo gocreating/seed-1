@@ -11,8 +11,8 @@ module.exports = React.createClass({
         password: $('input[name=password]').val(),
       })
       .done(function(res) {
-        console.log(res);
         if (res.errors.length !== 0) {
+          $('input[name=password]').val('');
           component.setState({
             isError: true,
           });
