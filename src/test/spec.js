@@ -32,23 +32,30 @@ describe('Default', function() {
 describe('User Module', function() {
   describe('Routing', function() {
     var base = 'http://localhost:' + serverPort;
-    var paths = [
-      '/user/register',
-      '/user/login',
-      '/user/logout',
-      '/user/profile',
+    var routes = [
+      ['/user/register', 200],
+      ['/user/login',    200],
+      ['/user/logout',   200],
+      ['/user/profile',  401], // unauthorized status before login
     ];
 
-    paths.forEach(function(path) {
-      it('should respond to GET ' + path, function(done) {
-        request
-          .get(base + path)
-          .end(function(err, res) {
-            expect(res).to.not.be.undefined;
-            expect(res.status).to.equal(200);
-            done();
-          });
-      });
+    routes.forEach(function(route) {
+      it(
+        'should respond ' +
+        route[1] +
+        ' to GET ' +
+        route[0],
+
+        function(done) {
+          request
+            .get(base + route[0])
+            .end(function(err, res) {
+              expect(res).to.not.be.undefined;
+              expect(res.status).to.equal(route[1]);
+              done();
+            });
+        }
+      );
     });
   });
 });

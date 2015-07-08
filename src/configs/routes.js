@@ -1,9 +1,9 @@
-var General = require('../controllers/GeneralController');
-var User = require('../controllers/UserController');
+var General = require('../controllers/generalController');
+var User = require('../controllers/userController');
 
-var userModule = require('../modules/UserModule');
+var userModule = require('../modules/userModule');
 
-var PageNotFoundError = require('../errors/PageNotFound');
+var PageNotFoundError = require('../errors/pageNotFound');
 
 module.exports = function(app) {
   // general routing

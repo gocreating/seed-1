@@ -1,6 +1,6 @@
-module.exports = function tokenExpirationError(title, detail) {
+module.exports = function(title, detail) {
   Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
+  this.name = 'tokenExpiration';
   this.status = 401;
   this.title = title || 'Token expired';
 };

@@ -1,4 +1,4 @@
-var userModule = require('../modules/UserModule');
+var userModule = require('../modules/userModule');
 
 module.exports = {
   register: {

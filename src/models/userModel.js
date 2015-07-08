@@ -1,4 +1,4 @@
-var DatabaseError = require('../errors/Database');
+var DatabaseError = require('../errors/database');
 
 var encodePassword = function(rawPassword) {
   var crypto = require('crypto');

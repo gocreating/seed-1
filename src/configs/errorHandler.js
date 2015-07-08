@@ -3,14 +3,17 @@ var DatabaseError = require('../errors/database');
 module.exports = function(app) {
   app.use(function(err, req, res, next) {
     switch (err.name) {
-      case 'DatabaseError': {
+      case 'database': {
         console.log('Database Error');
         break;
       }
-      case 'PageNotFoundError': {
+      case 'pageNotFound': {
         res.status(err.status);
         res.send('404');
         return next();
+      }
+      case 'unauthorize': {
+        break;
       }
       default: {
         console.log('Unknown Error:', err.name);
@@ -30,6 +33,8 @@ module.exports = function(app) {
           },
         ],
       });
+
+    // default error reporting page
     } else {
       res.render('error/index', {
         message: err.title,

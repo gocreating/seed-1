@@ -1,6 +1,6 @@
-module.exports = function PageNotFoundError(title, detail) {
+module.exports = function(title, detail) {
   Error.captureStackTrace(this, this.constructor);
-  this.name = this.constructor.name;
+  this.name = 'pageNotFound';
   this.status = 404;
   this.title = title || 'Page not found';
 };
