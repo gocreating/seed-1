@@ -54,6 +54,8 @@ $ gulp dev
    $ gulp dev/prod
    ```
 
+5. Open `http://localhost:5000`
+
 ## Documentation
 
 The documentation is served on gitbook site: [seed](https://www.gitbook.com/book/gocreating/seed)
