@@ -282,12 +282,14 @@ gulp.task('nodemon', function(cb) {
     if (!started) {
       cb();
       started = true;
+    } else {
+      browserSync.reload();
     }
   })
   .on('restart', function() {
-    setTimeout(function reload() {
-      browserSync.reload();
-    }, BROWSER_SYNC_RELOAD_DELAY);
+    // setTimeout(function reload() {
+    //   browserSync.reload();
+    // }, BROWSER_SYNC_RELOAD_DELAY);
   });
 });
 
