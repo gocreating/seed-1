@@ -3,6 +3,7 @@ module.exports = {
     port: {
       development: 5000,
       test: 4567,
+      production: 3000,
     },
   },
   // connection string of mongodb: 'mongodb://root@localhost/seed'

@@ -10,13 +10,20 @@ module.exports = function(app) {
   /**
    * http server
    */
+  var port;
+
+  // @ifdef DEV
+  port = settings.server.port.development;
+  // @endif
+
+  // @ifdef PROD
+  port = settings.server.port.production;
+  // @endif
+
   http
     .createServer(app)
-    .listen(settings.server.port.development, function() {
-      console.log(
-        'HTTP server listening on port',
-        settings.server.port.development
-      );
+    .listen(port, function() {
+      console.log('HTTP server listening on port', port);
     });
 
   /**

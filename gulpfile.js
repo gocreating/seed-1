@@ -158,14 +158,26 @@ gulp.task('images-prod', function(cb) {
  */
 gulp.task('backend-scripts-dev', function(cb) {
   gulp.src(['src/**/*.js', '!src/assets/**/*.js'])
-    .pipe(babel())
     .pipe(changed('build/debug'))
+    .pipe(preprocess({
+      context: {
+        ENV: 'development',
+        DEV: true,
+      },
+    }))
+    .pipe(babel())
     .pipe(gulp.dest('build/debug'))
     .on('end', cb);
 });
 
 gulp.task('backend-scripts-prod', function(cb) {
   gulp.src(['src/**/*.js', '!src/assets/**/*.js'])
+    .pipe(preprocess({
+      context: {
+        ENV: 'production',
+        PROD: true,
+      },
+    }))
     .pipe(babel())
     .pipe(gulpif(argv.u, uglify()))
     .pipe(gulp.dest('build/release'))
@@ -220,7 +232,6 @@ gulp.task('backend-views-prod', function(cb) {
  */
 gulp.task('copy-dev', function(cb) {
   gulp.src(['src/**/*', '!src/assets/', '!src/**/*.js'])
-    // .pipe(preprocess({context: { DEV: true}}))
     .pipe(changed('build/debug'))
     .pipe(gulp.dest('build/debug'))
     .on('end', cb);
@@ -228,7 +239,6 @@ gulp.task('copy-dev', function(cb) {
 
 gulp.task('copy-prod', function(cb) {
   gulp.src(['src/**/*', '!src/assets/', '!src/**/*.js'])
-    // .pipe(preprocess({context: { PROD: true }}))
     .pipe(gulp.dest('build/release'))
     .on('end', cb);
 });
@@ -282,7 +292,6 @@ gulp.task('nodemon', function(cb) {
       'src/**/*',
       'build/debug/assets/js/bundle.js',
       'build/release',
-      'build/uglyRelease',
     ],
   })
   .on('start', function() {
