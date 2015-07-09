@@ -40,7 +40,7 @@ module.exports = function(app) {
 
     // default error reporting page
     } else {
-      res.render('error/index', {
+      res.render('error/report', {
         message: err.title,
         stack: err.stack,
       });

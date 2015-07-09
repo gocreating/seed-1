@@ -8,15 +8,6 @@ var Paper = mui.Paper;
 
 module.exports = React.createClass({
   render: function render() {
-    // var BrowserSyncSnippet = (
-    //   <script
-    //     type="text/javascript"
-    //     id="__bs_script__"
-    //     src={
-    //       'http://localhost:7000/browser-sync/browser-sync-client.2.7.1.js'
-    //     }/>
-    // );
-
     var scripts = (this.props.scripts || []).map(function(src, idx) {
       return <script key={idx} src={src}/>;
     });

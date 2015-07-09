@@ -1,10 +1,10 @@
 var React = require('react');
 var MainLayout = require('../layout/main.jsx');
+var ErrorPanel = require('../error/panel.jsx');
 
 module.exports = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
-    var component = this;
     $
       .post('/api/user/login', {
         username: $('input[name=username]').val(),
@@ -13,35 +13,19 @@ module.exports = React.createClass({
       .done(function(res) {
         if (res.errors.length !== 0) {
           $('input[name=password]').val('');
-          component.setState({
-            isError: true,
-          });
+          this.refs.errPanel.setErrors(res.errors);
         } else {
           userModule.setToken(res.data.bearerToken);
           window.location = '/user/profile';
         }
-      });
-  },
-  getInitialState: function() {
-    return {
-      isError: false,
-    };
+      }.bind(this));
   },
   render: function() {
-    var ErrorPanel;
-    if (this.state.isError) {
-      ErrorPanel = (
-        <p>
-          wrong username or password
-        </p>
-      );
-    }
-
     return (
       <MainLayout>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
-          {ErrorPanel}
+          <ErrorPanel ref="errPanel" />
           <p>
             <input type="text" name="username" placeholder="username" />
           </p>

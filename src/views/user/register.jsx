@@ -1,10 +1,10 @@
 var React = require('react');
 var MainLayout = require('../layout/main.jsx');
+var ErrorPanel = require('../error/panel.jsx');
 
 module.exports = React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
-    var component = this;
     $
       .post('/api/user', {
         username: $('input[name=username]').val(),
@@ -12,34 +12,18 @@ module.exports = React.createClass({
       })
       .done(function(res) {
         if (res.errors.length !== 0) {
-          component.setState({
-            isUserExist: true,
-          });
+          this.refs.errPanel.setErrors(res.errors);
         } else {
           window.location = '/user/login';
         }
-      });
-  },
-  getInitialState: function() {
-    return {
-      isUserExist: false,
-    };
+      }.bind(this));
   },
   render: function() {
-    var ErrorPanel;
-    if (this.state.isUserExist) {
-      ErrorPanel = (
-        <p>
-          the user already exists
-        </p>
-      );
-    }
-
     return (
       <MainLayout>
         <h1>Register</h1>
         <form onSubmit={this.handleSubmit}>
-          {ErrorPanel}
+          <ErrorPanel ref="errPanel" />
           <p>
             <input type="text" name="username" placeholder="username" />
           </p>
