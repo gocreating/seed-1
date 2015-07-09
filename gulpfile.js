@@ -20,6 +20,7 @@ var source        = require('vinyl-source-stream');
 var buffer        = require('vinyl-buffer');
 var reactify      = require('reactify');
 var globify       = require('require-globify');
+var preprocessify = require('preprocessify');
 var preprocess    = require('gulp-preprocess');
 var babel         = require('gulp-babel');
 var gutil         = require('gulp-util');
@@ -37,6 +38,7 @@ var argv = require('yargs').argv;
 
 // if livereload not working properly, please increase the delay
 var BROWSER_SYNC_RELOAD_DELAY = 50;
+var BROWSER_SYNC_SNIPPET_PORT = 7000;
 
 /**
  * error handler
@@ -112,6 +114,12 @@ gulp.task('styles-prod', function(cb) {
 gulp.task('frontend-scripts-dev', function(cb) {
   gulp.src('src/assets/js/**/*.js')
     .pipe(changed('build/debug/assets/js'))
+    .pipe(preprocess({
+      context: {
+        ENV: 'development',
+        DEV: true,
+      },
+    }))
     .pipe(babel())
     .pipe(gulp.dest('build/debug/assets/js'))
     .on('end', cb);
@@ -119,8 +127,13 @@ gulp.task('frontend-scripts-dev', function(cb) {
 
 gulp.task('frontend-scripts-prod', function(cb) {
   gulp.src('src/assets/js/**/*.js')
+    .pipe(preprocess({
+      context: {
+        ENV: 'production',
+        PROD: true,
+      },
+    }))
     .pipe(babel())
-    // .pipe(rename({suffix: '.min'}))
     .pipe(uglify())
     .pipe(gulp.dest('build/release/assets/js'))
     .on('end', cb);
@@ -199,7 +212,14 @@ gulp.task('backend-views-dev', function(cb) {
       browserify({
         debug: true,
         entries: './src/assets/js/index.js',
-        transform: [reactify, globify],
+        transform: [
+          preprocessify({
+            BROWSER_SYNC_SNIPPET_PORT: BROWSER_SYNC_SNIPPET_PORT,
+            DEV: true,
+          }),
+          reactify,
+          globify,
+        ],
         shim: {
           jQuery: 'global:$',
         },
@@ -216,7 +236,16 @@ gulp.task('backend-views-prod', function(cb) {
   browserify({
     debug: false,
     entries: './src/assets/js/index.js',
-    transform: [reactify, globify],
+    transform: [
+      preprocessify({
+        PROD: true,
+      }),
+      reactify,
+      globify,
+    ],
+    shim: {
+      jQuery: 'global:$',
+    },
   })
   .bundle()
   .pipe(source('bundle.js'))
@@ -322,7 +351,7 @@ gulp.task('browser-sync', function(cb) {
       '!build/debug/views/**/*.jsx',
       '!build/debug/assets/js/bundle.js',
     ],
-    port: 7000,
+    port: BROWSER_SYNC_SNIPPET_PORT,
     logLevel: 'info',
     injectChanges: true,
     logSnippet: false,

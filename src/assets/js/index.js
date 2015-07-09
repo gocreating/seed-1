@@ -23,13 +23,15 @@ document.addEventListener('DOMContentLoaded', function onLoad() {
 });
 
 // @ifdef DEV
-var port = require('../../configs/settings').server.port['/* echo ENV */'];
 document.write(
-  '<script \
+  ('<script \
     async \
-    src="http://HOST:' + port + '/browser-sync/browser-sync-client.2.7.1.js">\
-   <\/script>'
-  .replace('HOST', location.hostname)
+    src="http://HOST:PORT/browser-sync/browser-sync-client.2.7.1.js">\
+   <\/script>')
+  .replace(
+    'HOST:PORT',
+    window.location.hostname + ':/* @echo BROWSER_SYNC_SNIPPET_PORT */'
+  )
 );
 // @endif
 

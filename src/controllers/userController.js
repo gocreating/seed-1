@@ -36,9 +36,13 @@ module.exports = {
             ],
           });
         } else {
+          var u = JSON.parse(JSON.stringify(user));
+          delete u.group;
+          delete u.password;
+
           res.json({
             data: {
-              user: user,
+              user: u,
             },
             errors: [],
           });
