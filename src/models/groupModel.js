@@ -1,5 +1,3 @@
-var DatabaseError = require('../errors/database');
-
 module.exports = function(orm, db) {
   var Permission = db.models.permission;
   var Group = db.define('group', {

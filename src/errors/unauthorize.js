@@ -5,5 +5,3 @@ module.exports = function(title, detail) {
   this.title = title || 'Unauthorized';
   this.detail = detail || 'the user is not authorized';
 };
-
-require('util').inherits(module.exports, Error);

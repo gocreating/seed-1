@@ -4,5 +4,3 @@ module.exports = function(title, detail) {
   this.status = 404;
   this.title = title || 'Page not found';
 };
-
-require('util').inherits(module.exports, Error);

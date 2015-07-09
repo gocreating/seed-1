@@ -5,5 +5,3 @@ module.exports = function(title, detail) {
   this.title = title || 'Invalid token';
   this.detail = detail || 'this token is malformed';
 };
-
-require('util').inherits(module.exports, Error);

@@ -4,5 +4,3 @@ module.exports = function(title, detail) {
   this.status = 500;
   this.title = title || 'Something wrong when accessing the database';
 };
-
-require('util').inherits(module.exports, Error);

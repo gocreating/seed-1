@@ -17,6 +17,9 @@ module.exports = function(app) {
         });
         return next();
       }
+      case 'tokenInvalid': {
+        require('../modules/userModule').logout(req, res);
+      }
       case 'formValueInvalid': {
         res.status(err.status);
         res.json({

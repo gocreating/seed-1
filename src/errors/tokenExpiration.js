@@ -4,5 +4,3 @@ module.exports = function(title, detail) {
   this.status = 401;
   this.title = title || 'Token expired';
 };
-
-require('util').inherits(module.exports, Error);

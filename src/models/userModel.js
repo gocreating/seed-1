@@ -1,5 +1,6 @@
-var DatabaseError = require('../errors/database');
-var FormValueInvalidError = require('../errors/formValueInvalid');
+var errors = require('../errors/');
+// var DatabaseError = require('../errors/database');
+// var FormValueInvalidError = require('../errors/formValueInvalid');
 
 var encodePassword = function(rawPassword) {
   var crypto = require('crypto');
@@ -52,7 +53,7 @@ module.exports = function(orm, db) {
   User.register = function(newUser, cb) {
     User.exists({username: newUser.username}, function(err, isExist) {
       if (err) {
-        return cb(new DatabaseError());
+        return cb(new errors.database());
       }
       if (isExist) {
         return cb(null, true, null);
@@ -67,7 +68,7 @@ module.exports = function(orm, db) {
             u.setGroup(group, function(err) {
               u.save(function(err) {
                 if (err) {
-                  cb(new FormValueInvalidError(null, null, err));
+                  cb(new errors.formValueInvalid(null, null, err));
                 }
                 return cb(err, false, u);
               });

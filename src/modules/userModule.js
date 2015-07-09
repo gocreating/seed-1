@@ -1,10 +1,7 @@
 var jwt = require('jwt-simple');
 var moment = require('moment');
 var settings = require('../configs/settings');
-
-var TokenExpirationError = require('../errors/tokenExpiration');
-var TokenInvalidError = require('../errors/tokenInvalid');
-var UnauthorizeError = require('../errors/unauthorize');
+var errors = require('../errors/');
 
 module.exports = {
   middleware: {
@@ -49,7 +46,7 @@ module.exports = {
           if (parts.length === 2 && parts[0] === headerKey) {
             bearerToken = parts[1];
           } else {
-            throw new TokenInvalidError();
+            throw new errors.tokenInvalid();
           }
 
         // extract token from query parameter
@@ -73,7 +70,7 @@ module.exports = {
 
             // token expired
             if (decoded.expiration <= Date.now()) {
-              throw new TokenExpirationError();
+              throw new errors.tokenExpiration();
 
             // token does not expire
             } else {
@@ -84,7 +81,7 @@ module.exports = {
 
           // malformed token
           } catch (err) {
-            throw new TokenInvalidError();
+            throw new errors.tokenInvalid();
           }
 
         // token does not exist, pass through it
@@ -98,7 +95,7 @@ module.exports = {
       if (req.token || req.user) {
         next();
       } else {
-        throw new UnauthorizeError();
+        throw new errors.unauthorize();
       }
     },
   },

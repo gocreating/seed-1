@@ -14,5 +14,3 @@ module.exports = function(title, detail, errs) {
   });
   this.validationErrors = validationErrors;
 };
-
-require('util').inherits(module.exports, Error);

@@ -1,9 +1,7 @@
 var General = require('../controllers/generalController');
 var User = require('../controllers/userController');
-
 var userModule = require('../modules/userModule');
-
-var PageNotFoundError = require('../errors/pageNotFound');
+var errors = require('../errors/');
 
 module.exports = function(app) {
   // general routing
@@ -20,6 +18,6 @@ module.exports = function(app) {
 
   // 404 page not found
   app.use(function(req, res, next) {
-    next(new PageNotFoundError());
+    next(new errors.pageNotFound());
   });
 };
