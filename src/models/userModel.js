@@ -28,7 +28,7 @@ module.exports = function(orm, db) {
   }, {
     validations: {
       username: orm.enforce.ranges.length(
-        8, 25, 'username should be 8 ~ 25 characters'),
+        4, 25, 'username should be 4 ~ 25 characters'),
     },
   });
 
