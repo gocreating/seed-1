@@ -1,4 +1,5 @@
 var DatabaseError = require('../errors/database');
+var FormValueInvalidError = require('../errors/formValueInvalid');
 
 var encodePassword = function(rawPassword) {
   var crypto = require('crypto');
@@ -24,6 +25,11 @@ module.exports = function(orm, db) {
     socialType: {type: 'integer'},
     openId:     {type: 'integer'},
     socialData: {type: 'object'},
+  }, {
+    validations: {
+      username: orm.enforce.ranges.length(
+        8, 25, 'username should be 8 ~ 25 characters'),
+    },
   });
 
   User.hasOne('group', Group);
@@ -54,19 +60,33 @@ module.exports = function(orm, db) {
         newUser.password = encodePassword(newUser.password);
 
         // create new user
-        User.create(newUser, function(err, user) {
-          if (err) {
-            return cb(err, true, null);
-          }
-
-          Group
-            .find({name: 'user'})
-            .first(function(err, group) {
-              user.setGroup(group, function(err) {
-                return cb(null, false, user);
+        Group
+          .find({name: 'user'})
+          .first(function(err, group) {
+            var u = new User(newUser);
+            u.setGroup(group, function(err) {
+              u.save(function(err) {
+                if (err) {
+                  cb(new FormValueInvalidError(null, null, err));
+                }
+                return cb(err, false, u);
               });
             });
-        });
+          });
+
+        // User.create(newUser, function(err, user) {
+        //   if (err) {
+        //     return cb(err, true, null);
+        //   }
+
+        //   Group
+        //     .find({name: 'user'})
+        //     .first(function(err, group) {
+        //       user.setGroup(group, function(err) {
+        //         return cb(null, false, user);
+        //       });
+        //     });
+        // });
       }
     });
   };

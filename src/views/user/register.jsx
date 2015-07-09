@@ -10,6 +10,18 @@ module.exports = React.createClass({
         username: $('input[name=username]').val(),
         password: $('input[name=password]').val(),
       })
+      .fail(function(err) {
+        var res = err.responseJSON;
+        this.refs.errPanel.setErrors(res.errors);
+        res.validationErrors.forEach(function(err) {
+          $('[name=' + err.property + ']')
+            .css({
+              'border-color': 'red',
+            })
+            .parent()
+            .append('<p>' + err.msg + '</p>');
+        });
+      }.bind(this))
       .done(function(res) {
         if (res.errors.length !== 0) {
           this.refs.errPanel.setErrors(res.errors);

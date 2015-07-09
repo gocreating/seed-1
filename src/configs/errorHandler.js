@@ -1,5 +1,3 @@
-var DatabaseError = require('../errors/database');
-
 module.exports = function(app) {
   app.use(function(err, req, res, next) {
     switch (err.name) {
@@ -16,6 +14,19 @@ module.exports = function(app) {
         res.status(err.status);
         res.render('error/unauthorize', {
           detail: err.detail,
+        });
+        return next();
+      }
+      case 'formValueInvalid': {
+        res.status(err.status);
+        res.json({
+          errors: [
+            {
+              title: err.title || '',
+              detail: err.detail || '',
+            },
+          ],
+          validationErrors: err.validationErrors,
         });
         return next();
       }
