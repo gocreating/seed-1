@@ -50,7 +50,7 @@ $ gulp dev
 
 4. Run as debug/production mode
 
-  - if you want to start developmenting your website, then use debug mode with livereload function.
+  - if you want to start developing your website, then use debug mode with livereload function.
 
     ```
     $ gulp dev
