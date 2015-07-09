@@ -50,9 +50,23 @@ $ gulp dev
 
 4. Run as debug/production mode
 
-   ```
-   $ gulp dev/prod
-   ```
+  - if you want to start developmenting your website, then use debug mode with livereload function.
+
+    ```
+    $ gulp dev
+    ```
+
+  - if you want to put your website into production, then use production mode.
+
+    ```
+    $ gulp prod
+    ```
+
+  - Moreover, you can turn on `-u` switch to uglify backend script files.
+
+    ```
+    $ gulp prod -u
+    ```
 
 5. Open `http://localhost:5000`
 

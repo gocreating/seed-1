@@ -9,6 +9,7 @@ var uglify        = require('gulp-uglify');
 // var imagemin      = require('gulp-imagemin');
 var rename        = require('gulp-rename');
 var concat        = require('gulp-concat');
+var gulpif        = require('gulp-if');
 var browserSync   = require('browser-sync');
 var nodemon       = require('gulp-nodemon');
 var changed       = require('gulp-changed');
@@ -23,6 +24,12 @@ var preprocess    = require('gulp-preprocess');
 var babel         = require('gulp-babel');
 var gutil         = require('gulp-util');
 var runSequence   = require('run-sequence');
+var async         = require('async');
+
+/**
+ * Load parameters
+ */
+var argv = require('yargs').argv;
 
 /**
  * Custom configurations
@@ -160,6 +167,7 @@ gulp.task('backend-scripts-dev', function(cb) {
 gulp.task('backend-scripts-prod', function(cb) {
   gulp.src(['src/**/*.js', '!src/assets/**/*.js'])
     .pipe(babel())
+    .pipe(gulpif(argv.u, uglify()))
     .pipe(gulp.dest('build/release'))
     .on('end', cb);
 });
@@ -168,7 +176,6 @@ gulp.task('backend-scripts-prod', function(cb) {
  * compile backend .jsx view files
  */
 gulp.task('backend-views-dev', function(cb) {
-  var async = require('async');
   async.series([
     function copyJSX(callback) {
       gulp.src(['src/views/**/*.jsx'])
@@ -317,7 +324,6 @@ gulp.task('browser-sync', function(cb) {
  * Initialize database
  */
 gulp.task('init', function(cb) {
-  var async = require('async');
   var models = require('./src/models/');
 
   models(function(err, db) {
@@ -458,38 +464,6 @@ gulp.task('init', function(cb) {
 });
 
 /**
- * concat and uglify prodoction backend script files
- */
-gulp.task('uglyProd', function(cb) {
-  var modConcat = require('node-module-concat');
-  del(['build/uglyRelease/'], function() {
-    gulp.src('./build/release/assets/**/*')
-      .pipe(gulp.dest('./build/uglyRelease/assets/'))
-      .on('end', function() {
-        gulp.src('./build/release/views/**/*')
-          .pipe(gulp.dest('./build/uglyRelease/views/'))
-          .on('end', function() {
-            modConcat(
-              './build/release/app.js',
-              './build/uglyRelease/tempApp.js',
-              function(err, files) {
-              if (err) {
-                throw err;
-              }
-              gulp.src('./build/uglyRelease/tempApp.js')
-                .pipe(uglify())
-                .pipe(rename('app.js'))
-                .pipe(gulp.dest('./build/uglyRelease/'))
-                .on('end', function() {
-                  del(['./build/uglyRelease/tempApp.js'], cb);
-                });
-            });
-          });
-      });
-  });
-});
-
-/**
  * default task
  */
 gulp.task('default', function() {
@@ -497,7 +471,7 @@ gulp.task('default', function() {
 });
 
 /**
- * Development/Debug mode
+ * Development mode
  */
 gulp.task('dev', function(cb) {
   runSequence(
@@ -518,7 +492,7 @@ gulp.task('dev', function(cb) {
 });
 
 /**
- * Deployment/Production mode
+ * Production mode
  */
 gulp.task('prod', ['clean-prod'], function() {
   gulp.start(
