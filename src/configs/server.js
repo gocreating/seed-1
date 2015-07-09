@@ -3,14 +3,20 @@ var http = require('http');
 var https = require('https');
 var fs = require('fs'); // To read ssl key and cert
 
+// settings
+var settings = require('./settings');
+
 module.exports = function(app) {
   /**
    * http server
    */
   http
     .createServer(app)
-    .listen(5000, function() {
-      console.log('HTTP  server listening on port ' + 5000);
+    .listen(settings.server.port.development, function() {
+      console.log(
+        'HTTP server listening on port',
+        settings.server.port.development
+      );
     });
 
   /**

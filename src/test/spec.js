@@ -2,13 +2,15 @@ var chai = require('chai');
 var expect = chai.expect;
 var request = require('superagent');
 
+var settings = require('../configs/settings');
+
 var app = require('../app');
 var http = require('http');
 
-var serverPort = 4567;
+var serverPort = settings.server.port.test;
 var base = 'http://localhost:' + serverPort;
 
-var loginUser = {
+var vlaidUser = {
   username: 'root',
   password: 'root',
 };
@@ -68,7 +70,7 @@ describe('User Module', function() {
     before(function(done) {
       request
         .post(base + '/api/user/login')
-        .send(loginUser)
+        .send(vlaidUser)
         .end(function(err, res) {
           token = res.body.data.bearerToken;
           done();
@@ -107,22 +109,21 @@ describe('User Module', function() {
 
   describe('API', function() {
     describe('/api/user/login', function() {
-      it('should retrieve a valid token', function(done) {
+      it('should respond with a valid token', function(done) {
         request
           .post(base + '/api/user/login')
-          .send(loginUser)
+          .send(vlaidUser)
           .end(function(err, res) {
             expect(res).to.not.be.undefined;
 
             var jwt = require('jwt-simple');
-            var settings = require('../configs/settings');
             var decoded = jwt.decode(
               res.body.data.bearerToken,
               settings.user.bearerToken.secret
             );
             var actualUser = decoded.user;
 
-            expect(loginUser.username).to.equal(actualUser.username);
+            expect(vlaidUser.username).to.equal(actualUser.username);
             done();
           });
       });
