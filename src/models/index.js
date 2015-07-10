@@ -15,7 +15,14 @@ module.exports = function(cb) {
     return cb(null, connection);
   }
 
-  orm.connect(settings.db, function(err, db) {
+  var db;
+  // @ifdef DEV
+  db = settings.db.development;
+  // #endif
+  // @ifdef PROD
+  db = settings.db.production;
+  // #endif
+  orm.connect(db, function(err, db) {
     if (err) {
       return cb(err);
     }

@@ -24,8 +24,8 @@ Then you can start using the CLI operations
 ```
 $ npm install
 $ bower install
-$ gulp init
-$ gulp dev
+$ gulp init -d  # development mode
+$ gulp build -d # development mode
 ```
 
 1. Install nodejs packages
@@ -42,10 +42,12 @@ $ gulp dev
 
 3. Initialize database
 
-   According to our testing result, if you are using `mongodb`, this step is optional. If you are using `sqlite`, then this step is required, or you will get the **DatabaseError** when running the app.
+   Create tables from schemas, and insert built-in records like root user, default permissions, etc.
+
+   `-d`, `-t`, and `-p` switches will initialize the `development`, `test`, `production` databases, respectively.
 
    ```
-   $ gulp init
+   $ gulp init [-d | -t | -p]
    ```
 
 4. Run as debug/production mode
@@ -53,22 +55,30 @@ $ gulp dev
   - if you want to start developing your website, then use debug mode with livereload function.
 
     ```
-    $ gulp dev
+    $ gulp build -d
     ```
 
   - if you want to put your website into production, then use production mode.
 
     ```
-    $ gulp prod
+    $ gulp build -p
     ```
 
   - Moreover, you can turn on `-u` switch to uglify backend script files.
 
     ```
-    $ gulp prod -u
+    $ gulp build -p -u
     ```
 
-5. Open `http://localhost:5000`
+5. Open on browsers
+
+  - Development mode is host on port 5000
+
+    `http://localhost:5000`
+
+  - Production mode is host on port 3000
+
+    `http://localhost:3000`
 
 ## Documentation
 

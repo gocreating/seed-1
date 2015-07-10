@@ -8,7 +8,11 @@ module.exports = {
   },
   // connection string of mongodb: 'mongodb://root@localhost/seed'
   // connection string of sqlite: 'sqlite://db.sqlite'
-  db: 'sqlite://db.sqlite',
+  db: {
+    development: 'sqlite://db.development.sqlite',
+    test: 'sqlite://db.test.sqlite',
+    production: 'sqlite://db.production.sqlite',
+  },
   user: {
     bearerToken: {
       expiration: '7 days',

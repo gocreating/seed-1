@@ -4,10 +4,10 @@
   "description": "A flexible and scalable suite for building modern websites, using nodejs with express",
   "main": "index.js",
   "scripts": {
-    "test": "npm run jscs && npm run build:production && npm run mocha:production",
+    "test": "npm run jscs && npm run build && npm run mocha",
     "jscs": "jscs --verbose .",
-    "build:production": "gulp prod",
-    "mocha:production": "mocha build/release/test/spec.js"
+    "build": "gulp build -t",
+    "mocha": "mocha build/test/test/spec.js"
   },
   "repository": {
     "type": "git",

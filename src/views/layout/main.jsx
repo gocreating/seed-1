@@ -25,7 +25,7 @@ module.exports = React.createClass({
             content="width=device-width, initial-scale=1.0" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <title>
-            {this.props.title}
+            {this.props.title || 'Seed'}
           </title>
 
           <link rel="stylesheet" type="text/css" href="/css/main.css" />

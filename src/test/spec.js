@@ -108,7 +108,24 @@ describe('User Module', function() {
   });
 
   describe('API', function() {
-    describe('/api/user/login', function() {
+    describe('POST /api/user', function() {
+      it('should respond with a valid user', function(done) {
+        request
+          .post(base + '/api/user')
+          .send(vlaidUser)
+          .end(function(err, res) {
+            expect(res).to.not.be.undefined;
+            var returnErrors = res.body.errors;
+            console.log(res.body);
+            var returnUser = res.body.data.user;
+            expect(returnErrors).to.be.empty;
+            expect(returnUser.username).to.equal(vlaidUser.username);
+            done();
+          });
+      });
+    });
+
+    describe('POST /api/user/login', function() {
       it('should respond with a valid token', function(done) {
         request
           .post(base + '/api/user/login')
@@ -123,7 +140,7 @@ describe('User Module', function() {
             );
             var actualUser = decoded.user;
 
-            expect(vlaidUser.username).to.equal(actualUser.username);
+            expect(actualUser.username).to.equal(vlaidUser.username);
             done();
           });
       });
