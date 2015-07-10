@@ -14,8 +14,5 @@ install:
   - npm install
   - bower install
 
-before_script:
-  - gulp init -t
-
 script:
   - npm test

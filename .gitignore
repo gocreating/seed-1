@@ -9,10 +9,13 @@ sftp-configuration.json
 
 # Build files
 build/debug
+build/test
 build/release
 
 # Database
-db.sqlite
+db.development.sqlite
+db.test.sqlite
+db.production.sqlite
 
 # Secret
 github

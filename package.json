@@ -6,7 +6,7 @@
   "scripts": {
     "test": "npm run jscs && npm run build && npm run mocha",
     "jscs": "jscs --verbose .",
-    "build": "gulp build -t",
+    "build": "gulp init -t && gulp build -t",
     "mocha": "mocha build/test/test/spec.js"
   },
   "repository": {

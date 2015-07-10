@@ -3,10 +3,6 @@ var expect = chai.expect;
 var request = require('superagent');
 
 var settings = require('../configs/settings');
-
-var app = require('../app');
-var http = require('http');
-
 var serverPort = settings.server.port.test;
 var base = 'http://localhost:' + serverPort;
 
@@ -15,13 +11,13 @@ var vlaidUser = {
   password: 'root',
 };
 
-before(function(done) {
-  http
-    .createServer(app)
-    .listen(serverPort, function() {
-      done();
-    });
-});
+var newUser = {
+  username: 'test',
+  password: 'test',
+};
+
+// launch the server
+var app = require('../app');
 
 describe('Default', function() {
   describe('Routing', function() {
@@ -112,14 +108,13 @@ describe('User Module', function() {
       it('should respond with a valid user', function(done) {
         request
           .post(base + '/api/user')
-          .send(vlaidUser)
+          .send(newUser)
           .end(function(err, res) {
             expect(res).to.not.be.undefined;
             var returnErrors = res.body.errors;
-            console.log(res.body);
             var returnUser = res.body.data.user;
             expect(returnErrors).to.be.empty;
-            expect(returnUser.username).to.equal(vlaidUser.username);
+            expect(returnUser.username).to.equal(newUser.username);
             done();
           });
       });

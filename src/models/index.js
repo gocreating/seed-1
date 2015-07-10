@@ -1,5 +1,4 @@
 var orm      = require('orm');
-var settings = require('../configs/settings');
 
 var connection = null;
 
@@ -10,25 +9,19 @@ function setup(db, cb) {
   return cb(null, db);
 }
 
-module.exports = function(cb) {
-  if (connection) {
-    return cb(null, connection);
-  }
-
-  var db;
-  // @ifdef DEV
-  db = settings.db.development;
-  // #endif
-  // @ifdef PROD
-  db = settings.db.production;
-  // #endif
-  orm.connect(db, function(err, db) {
-    if (err) {
-      return cb(err);
+module.exports = function(connectionString) {
+  return function(cb) {
+    if (connection) {
+      return cb(null, connection);
     }
+    orm.connect(connectionString, function(err, db) {
+      if (err) {
+        return cb(err);
+      }
 
-    connection = db;
-    db.settings.set('instance.returnAllErrors', true);
-    setup(db, cb);
-  });
+      connection = db;
+      db.settings.set('instance.returnAllErrors', true);
+      setup(db, cb);
+    });
+  };
 };

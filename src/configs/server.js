@@ -16,6 +16,10 @@ module.exports = function(app) {
   port = settings.server.port.development;
   // @endif
 
+  // @ifdef TEST
+  port = settings.server.port.test;
+  // @endif
+
   // @ifdef PROD
   port = settings.server.port.production;
   // @endif
