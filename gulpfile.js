@@ -30,7 +30,31 @@ var async         = require('async');
 /**
  * Load parameters
  */
-var argv = require('yargs').argv;
+var argv = require('yargs')
+  .usage('Usage: gulp <command> [options] [-u]')
+  .command(
+    'init',
+    'Initialize database.\n' +
+    'Create tables from schemas, and insert built-in records ' +
+    'like root user, default permissions, etc.'
+  )
+  .command(
+    'build',
+    'Prepare an environment for development, test or production.'
+  )
+  .demand(1)
+  .example('gulp build -d', 'build environment for development')
+  .alias('d', 'development')
+  .describe('d', 'Development environment')
+  .alias('t', 'test')
+  .describe('t', 'Test environment')
+  .alias('p', 'production')
+  .describe('p', 'Production environment')
+  .alias('u', 'uglify')
+  .describe('u', 'Uglify backend .js scripts')
+  .help('h')
+  .alias('h', 'help')
+  .argv;
 
 // variables for environment
 var env;
