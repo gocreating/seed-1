@@ -6,7 +6,6 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
-var passport = require('passport');
 
 var userModule = require('../modules/userModule');
 
@@ -34,7 +33,7 @@ module.exports = function(app) {
    * serve static files
    */
   app.use(express.static(path.join(__dirname, '..', 'assets')));
-  app.use(favicon(path.join(__dirname + '..', 'assets', 'favicon.ico')));
+  app.use(favicon(path.join(__dirname, '..', 'assets', 'favicon.ico')));
 
   /**
    * logger
@@ -63,8 +62,4 @@ module.exports = function(app) {
 
   // token parser
   app.use(userModule.middleware.tokenParser());
-
-  // authentication
-  app.use(passport.initialize());
-  app.use(passport.session());
 };
