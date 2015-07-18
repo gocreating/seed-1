@@ -1,4 +1,9 @@
 /**
+ * Use require hook to support es6
+ */
+require('babel/register');
+
+/**
  * Load plugins
  */
 var gulp          = require('gulp');
@@ -26,7 +31,6 @@ var babel         = require('gulp-babel');
 var gutil         = require('gulp-util');
 var runSequence   = require('run-sequence');
 var async         = require('async');
-
 /**
  * Load parameters
  */
@@ -309,7 +313,8 @@ gulp.task('nodemon', function(cb) {
         'node_modules/**/*',
         'src/**/*',
         'build/debug/assets/js/bundle.js',
-        'build/release',
+        'build/release/**/*',
+        'build/test/**/*',
       ],
     })
     .on('start', function() {

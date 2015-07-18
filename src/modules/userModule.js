@@ -1,9 +1,9 @@
-var jwt = require('jwt-simple');
-var moment = require('moment');
-var settings = require('../configs/settings');
-var errors = require('../errors/');
+import jwt      from 'jwt-simple';
+import moment   from 'moment';
+import settings from '../configs/settings';
+import errors   from '../errors/';
 
-module.exports = {
+export default {
   middleware: {
     /**
      * Parse bearer token and
@@ -24,17 +24,17 @@ module.exports = {
      * @returns {function}
      *  - A middleware function
      */
-    tokenParser: function(opts) {
+    tokenParser: (opts) => {
       if (!opts) {
         opts = {};
       }
-      var cookieKey = opts.cookieKey || 'access_token';
-      var queryKey  = opts.queryKey  || 'access_token';
-      var bodyKey   = opts.bodyKey   || 'access_token';
-      var headerKey = opts.headerKey || 'Bearer';
+      const cookieKey = opts.cookieKey || 'access_token';
+      const queryKey  = opts.queryKey  || 'access_token';
+      const bodyKey   = opts.bodyKey   || 'access_token';
+      const headerKey = opts.headerKey || 'Bearer';
 
-      return function(req, res, next) {
-        var bearerToken;
+      return (req, res, next) => {
+        let bearerToken;
 
         // extract token from cookie
         if (req.cookies && req.cookies[cookieKey]) {
@@ -42,7 +42,7 @@ module.exports = {
 
         // extract token from header
         } else if (req.headers && req.headers.authorization) {
-          var parts = req.headers.authorization.split(' ');
+          const parts = req.headers.authorization.split(' ');
           if (parts.length === 2 && parts[0] === headerKey) {
             bearerToken = parts[1];
           } else {
@@ -63,7 +63,7 @@ module.exports = {
 
           // well-formed token
           try {
-            var decoded = jwt.decode(
+            const decoded = jwt.decode(
               bearerToken,
               settings.user.bearerToken.secret
             );
@@ -91,7 +91,7 @@ module.exports = {
       };
     },
 
-    requireLogin: function(req, res, next) {
+    requireLogin: (req, res, next) => {
       if (req.token || req.user) {
         next();
       } else {
@@ -109,8 +109,8 @@ module.exports = {
    * @returns {string}
    *  - A jwt token
    */
-  generateBearerToken: function(user) {
-    var token = jwt.encode({
+  generateBearerToken: (user) => {
+    const token = jwt.encode({
       user: {
         id: user.id,
         username: user.username,
@@ -126,10 +126,10 @@ module.exports = {
 
     return token;
   },
-  login: function(req, res, token) {
+  login: (req, res, token) => {
     res.cookie('access_token', token);
   },
-  logout: function(req, res) {
+  logout: (req, res) => {
     res.clearCookie('access_token');
   },
 };

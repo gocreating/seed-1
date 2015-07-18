@@ -1,26 +1,26 @@
-module.exports = function(app) {
-  app.use(function(err, req, res, next) {
-    switch (err.name) {
-      case 'database': {
+export default (app) => {
+  app.use((err, req, res, next) => {
+    switch (err.constructor.name) {
+      case 'Database': {
         console.log('Database Error');
         break;
       }
-      case 'pageNotFound': {
+      case 'PageNotFound': {
         res.status(err.status);
         res.send('404');
         return next();
       }
-      case 'unauthorize': {
+      case 'Unauthorize': {
         res.status(err.status);
         res.render('error/unauthorize', {
           detail: err.detail,
         });
         return next();
       }
-      case 'tokenInvalid': {
+      case 'TokenInvalid': {
         require('../modules/userModule').logout(req, res);
       }
-      case 'formValueInvalid': {
+      case 'FormValueInvalid': {
         res.status(err.status);
         res.json({
           errors: [

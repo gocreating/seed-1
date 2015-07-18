@@ -3,12 +3,12 @@
 // make `.jsx` file requirable by node
 require('node-jsx').install();
 
-import express from 'express';
+import express            from 'express';
 import environmentHandler from './configs/environmentHandler';
-import databaseHandler from './configs/databaseHandler';
-import routesHandler from './configs/routesHandler';
-import errorHandler from './configs/errorHandler';
-import serverHandler from './configs/serverHandler';
+import databaseHandler    from './configs/databaseHandler';
+import routesHandler      from './configs/routesHandler';
+import errorHandler       from './configs/errorHandler';
+import serverHandler      from './configs/serverHandler';
 
 const app = express();
 

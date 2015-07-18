@@ -1,10 +1,8 @@
-var errors = require('../errors/');
-// var DatabaseError = require('../errors/database');
-// var FormValueInvalidError = require('../errors/formValueInvalid');
+import errors from '../errors/';
 
-var encodePassword = function(rawPassword) {
-  var crypto = require('crypto');
-  var recursiveLevel = 5;
+const encodePassword = (rawPassword) => {
+  const crypto = require('crypto');
+  let recursiveLevel = 5;
   while (recursiveLevel) {
     rawPassword = crypto
       .createHash('md5')
@@ -15,9 +13,9 @@ var encodePassword = function(rawPassword) {
   return rawPassword;
 };
 
-module.exports = function(orm, db) {
-  var Group = db.models.group;
-  var User = db.define('user', {
+export default (orm, db) => {
+  const Group = db.models.group;
+  const User = db.define('user', {
     username:   {type: 'text', size: 25},
     password:   {type: 'text', size: 32}, // the password is a hash value
     email:      {type: 'text', size: 62},
@@ -50,8 +48,8 @@ module.exports = function(orm, db) {
    * @param {object} cb().user
    *  - The user object just created
    */
-  User.register = function(newUser, cb) {
-    User.exists({username: newUser.username}, function(err, isExist) {
+  User.register = (newUser, cb) => {
+    User.exists({username: newUser.username}, (err, isExist) => {
       if (err) {
         return cb(new errors.database());
       }
@@ -63,10 +61,10 @@ module.exports = function(orm, db) {
         // create new user
         Group
           .find({name: 'user'})
-          .first(function(err, group) {
+          .first((err, group) => {
             var u = new User(newUser);
-            u.setGroup(group, function(err) {
-              u.save(function(err) {
+            u.setGroup(group, (err) => {
+              u.save((err) => {
                 if (err) {
                   cb(new errors.formValueInvalid(null, null, err));
                 }
@@ -74,20 +72,6 @@ module.exports = function(orm, db) {
               });
             });
           });
-
-        // User.create(newUser, function(err, user) {
-        //   if (err) {
-        //     return cb(err, true, null);
-        //   }
-
-        //   Group
-        //     .find({name: 'user'})
-        //     .first(function(err, group) {
-        //       user.setGroup(group, function(err) {
-        //         return cb(null, false, user);
-        //       });
-        //     });
-        // });
       }
     });
   };
@@ -108,11 +92,11 @@ module.exports = function(orm, db) {
    *  - Return null if the user is failed to authenticate
    *  - Return the authenticated user object if successfully authenticate
    */
-  User.auth = function(username, password, cb) {
+  User.auth = (username, password, cb) => {
     User.one({
       username: username,
       password: encodePassword(password),
-    }, function(err, user) {
+    }, (err, user) => {
       cb(err, user);
     });
   };

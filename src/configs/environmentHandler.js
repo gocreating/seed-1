@@ -1,21 +1,20 @@
-var express  = require('express');
-var path  = require('path');
-var renderer = require('react-engine');
-var favicon = require('serve-favicon');
-var morgan = require('morgan');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
+import express      from 'express';
+import path         from 'path';
+import renderer     from 'react-engine';
+import favicon      from 'serve-favicon';
+import morgan       from 'morgan';
+import bodyParser   from 'body-parser';
+import cookieParser from 'cookie-parser';
 
-var userModule = require('../modules/userModule');
+import userModule   from '../modules/userModule';
 
-module.exports = function(app) {
+export default (app) => {
   /**
    * view engine setup
    */
 
   // create the view engine with `react-engine`
-  var engine = renderer.server.create();
+  const engine = renderer.server.create();
 
   // set the engine
   app.engine('.jsx', engine);
@@ -35,6 +34,7 @@ module.exports = function(app) {
   app.use(express.static(path.join(__dirname, '..', 'assets')));
   app.use(favicon(path.join(__dirname, '..', 'assets', 'favicon.ico')));
 
+  // @ifndef TEST
   /**
    * logger
    */
@@ -46,6 +46,7 @@ module.exports = function(app) {
     ':res[content-length] - ' +
     ':response-time ms'
   ));
+  // @endif
 
   /**
    * parser

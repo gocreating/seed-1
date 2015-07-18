@@ -1,16 +1,16 @@
 // server modules
-var http = require('http');
-var https = require('https');
-var fs = require('fs'); // To read ssl key and cert
+import http from 'http';
+import https from 'https';
+import fs from 'fs'; // To read ssl key and cert
 
 // settings
-var settings = require('./settings');
+import settings from './settings';
 
-module.exports = function(app) {
+export default (app) => {
   /**
    * http server
    */
-  var port;
+  let port;
 
   // @ifdef DEV
   port = settings.server.port.development;
@@ -26,7 +26,7 @@ module.exports = function(app) {
 
   http
     .createServer(app)
-    .listen(port, function() {
+    .listen(port, () => {
       console.log('HTTP server listening on port', port);
     });
 

@@ -1,6 +1,6 @@
-module.exports = function(orm, db) {
-  var Permission = db.models.permission;
-  var Group = db.define('group', {
+export default (orm, db) => {
+  const Permission = db.models.permission;
+  const Group = db.define('group', {
     name: {type: 'text', size: 40},
   });
 

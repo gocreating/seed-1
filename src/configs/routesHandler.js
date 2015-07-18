@@ -1,12 +1,12 @@
-var General = require('../controllers/generalController');
-var User = require('../controllers/userController');
-var userModule = require('../modules/userModule');
-var errors = require('../errors/');
+import General from '../controllers/generalController';
+import User from '../controllers/userController';
+import userModule from '../modules/userModule';
+import errors from '../errors/';
 
-module.exports = function(app) {
+export default (app) => {
   // general routing
-  app.get('/',              General.home);
-  app.get('/about',         General.about);
+  app.get('/',      General.home);
+  app.get('/about', General.about);
 
   // user routing
   app.get ('/user/register',  User.register);
@@ -17,7 +17,7 @@ module.exports = function(app) {
   app.post('/api/user/login', User.api.login);
 
   // 404 page not found
-  app.use(function(req, res, next) {
+  app.use((req, res, next) => {
     next(new errors.pageNotFound());
   });
 };

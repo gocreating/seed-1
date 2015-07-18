@@ -1,28 +1,28 @@
-var userModule = require('../modules/userModule');
+import userModule from '../modules/userModule';
 
-module.exports = {
-  register: function(req, res) {
+export default {
+  register: (req, res) => {
     res.render('user/register');
   },
-  login: function(req, res) {
+  login: (req, res) => {
     res.render('user/login');
   },
-  logout: function(req, res) {
+  logout: (req, res) => {
     userModule.logout(req, res);
     res.redirect('/');
   },
-  profile: function(req, res) {
+  profile: (req, res) => {
     res.render('user/profile');
   },
   api: {
-    create: function(req, res, next) {
-      var newUser = {
+    create: (req, res, next) => {
+      const newUser = {
         username: req.body.username,
         password: req.body.password,
         isVerified: false,
       };
 
-      req.models.user.register(newUser, function(err, isExist, user) {
+      req.models.user.register(newUser, (err, isExist, user) => {
         if (err) {
           return next(err);
         }
@@ -49,11 +49,11 @@ module.exports = {
         }
       });
     },
-    login: function(req, res, next) {
+    login: (req, res, next) => {
       req.models.user.auth(
         req.body.username,
         req.body.password,
-        function(err, user) {
+        (err, user) => {
           if (err) {
             return next(err);
           }
