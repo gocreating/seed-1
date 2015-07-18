@@ -7,8 +7,6 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var passport = require('passport');
-// Store session in mysql database
-// var SessionStore = require('express-mysql-session');
 
 var userModule = require('../modules/userModule');
 
@@ -24,8 +22,7 @@ module.exports = function(app) {
   app.engine('.jsx', engine);
 
   // set the view directory
-  // app.set('views', __dirname + '\/..\/views');
-  app.set('views', path.join(__dirname, '/../views'));
+  app.set('views', path.join(__dirname, '..', 'views'));
 
   // set js as the view engine
   app.set('view engine', 'jsx');
@@ -36,8 +33,8 @@ module.exports = function(app) {
   /**
    * serve static files
    */
-  app.use(express.static(__dirname + '/../assets'));
-  app.use(favicon(__dirname + '/../assets/favicon.ico'));
+  app.use(express.static(path.join(__dirname, '..', 'assets')));
+  app.use(favicon(path.join(__dirname + '..', 'assets', 'favicon.ico')));
 
   /**
    * logger
@@ -66,20 +63,6 @@ module.exports = function(app) {
 
   // token parser
   app.use(userModule.middleware.tokenParser());
-
-  // // parse session (req.session)
-  // app.use(session({
-  //   secret: config.secret.sessionSecret,
-  //   resave: true,
-  //   saveUninitialized: true,
-  //   store: new SessionStore({
-  //     host: config.db.host,
-  //     port: config.db.port,
-  //     user: config.db.user,
-  //     password: config.db.password,
-  //     database: config.db.database,
-  //   }),
-  // }));
 
   // authentication
   app.use(passport.initialize());
