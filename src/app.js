@@ -3,29 +3,29 @@
 // make `.jsx` file requirable by node
 require('node-jsx').install();
 
-var express = require('express');
-var environment = require('./configs/environment');
-var database = require('./configs/database');
-var routes = require('./configs/routes');
-var errorHandler = require('./configs/errorHandler');
-var server = require('./configs/server');
+import express from 'express';
+import environmentHandler from './configs/environmentHandler';
+import databaseHandler from './configs/databaseHandler';
+import routesHandler from './configs/routesHandler';
+import errorHandler from './configs/errorHandler';
+import serverHandler from './configs/serverHandler';
 
-var app = express();
+const app = express();
 
 // setup environment
-environment(app);
+environmentHandler(app);
 
 // setup database connection and models
-database(app);
+databaseHandler(app);
 
 // setup routing
-routes(app);
+routesHandler(app);
 
 // error handling
 errorHandler(app);
 
 // launch the server
-server(app);
+serverHandler(app);
 
 // exports the app for testing
-module.exports = app;
+export default app;
