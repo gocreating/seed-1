@@ -1,7 +1,7 @@
 'use strict';
 
 // make `.jsx` file requirable by node
-require('node-jsx').install();
+require('babel/register');
 
 import express            from 'express';
 import environmentHandler from './configs/environmentHandler';

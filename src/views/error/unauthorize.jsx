@@ -1,16 +1,16 @@
-var React = require('react');
-var MainLayout = require('../layout/main.jsx');
+import React from 'react';
+import DefaultLayout from '../layout/defaultLayout.jsx';
 
 module.exports = React.createClass({
   render: function() {
     return (
-      <MainLayout>
+      <DefaultLayout>
         <h1>Unauthorize</h1>
         <p>{this.props.detail}</p>
         <p>
           Please <a href="/user/login">login</a> first
         </p>
-      </MainLayout>
+      </DefaultLayout>
     );
   },
 });

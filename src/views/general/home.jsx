@@ -1,40 +1,33 @@
-var React = require('react');
-var MainLayout = require('../layout/main.jsx');
-
-// require material-ui
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
+import React from 'react';
+import DefaultLayout from '../layout/defaultLayout.jsx';
+import {RaisedButton} from 'material-ui';
 
 module.exports = React.createClass({
-  btnClick: function() {
+  handleBtnClick: function() {
     alert('The button works properly on client side');
   },
   render: function() {
-    var paperStyle = {
-      padding: '10px',
-      margin: '10px',
-    };
     return (
-      <MainLayout>
+      <DefaultLayout>
         <h1>Home</h1>
         <p>
           <RaisedButton
             label="Click Me"
             primary={true}
-            onClick={this.btnClick} />
+            onClick={this.handleBtnClick} />
         </p>
         <p>
           <RaisedButton
             label="Click Me"
             secondary={true}
-            onClick={this.btnClick} />
+            onClick={this.handleBtnClick} />
         </p>
         <p>
           <RaisedButton
             label="Click Me"
-            onClick={this.btnClick} />
+            onClick={this.handleBtnClick} />
         </p>
-      </MainLayout>
+      </DefaultLayout>
     );
   },
 });

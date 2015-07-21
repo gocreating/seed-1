@@ -5,4 +5,9 @@ export default {
   about: (req, res) => {
     res.render('general/about');
   },
+  hello: (req, res) => {
+    res.render('general/helloworld', {
+      todos: [],
+    });
+  },
 };

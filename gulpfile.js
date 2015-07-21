@@ -23,7 +23,7 @@ var notify        = require('gulp-notify');
 var browserify    = require('browserify');
 var source        = require('vinyl-source-stream');
 var buffer        = require('vinyl-buffer');
-var reactify      = require('reactify');
+var babelify      = require('babelify');
 var globify       = require('require-globify');
 var preprocessify = require('preprocessify');
 var preprocess    = require('gulp-preprocess');
@@ -235,7 +235,7 @@ gulp.task('backend-views', function() {
     entries: './src/assets/js/index.js',
     transform: [
       preprocessify(preprocessifyOption),
-      reactify,
+      babelify,
       globify,
     ],
     shim: {
@@ -245,7 +245,7 @@ gulp.task('backend-views', function() {
   .bundle()
   .pipe(source('bundle.js'))
   .pipe(buffer())
-  .pipe(uglify())
+  .pipe(gulpif(isProd, uglify()))
   .pipe(gulpif(isDev, gulp.dest('build/debug/assets/js')))
   .pipe(gulpif(isTest, gulp.dest('build/test/assets/js')))
   .pipe(gulpif(isProd, gulp.dest('build/release/assets/js')));

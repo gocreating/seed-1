@@ -1,8 +1,8 @@
-var React = require('react');
-var MainLayout = require('../layout/main.jsx');
-var ErrorPanel = require('../error/panel.jsx');
+import React from 'react';
+import DefaultLayout from '../layout/defaultLayout.jsx';
+import ErrorPanel from '../error/panel.jsx';
 
-module.exports = React.createClass({
+export default React.createClass({
   handleSubmit: function(e) {
     e.preventDefault();
     $
@@ -22,7 +22,7 @@ module.exports = React.createClass({
   },
   render: function() {
     return (
-      <MainLayout>
+      <DefaultLayout>
         <h1>Login</h1>
         <form onSubmit={this.handleSubmit}>
           <ErrorPanel ref="errPanel" />
@@ -36,7 +36,7 @@ module.exports = React.createClass({
             <button type="submit">Login</button>
           </p>
         </form>
-      </MainLayout>
+      </DefaultLayout>
     );
   },
 });
