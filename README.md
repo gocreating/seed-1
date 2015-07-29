@@ -1,5 +1,7 @@
 # Seed
 
+[![Join the chat at https://gitter.im/gocreating/seed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/gocreating/seed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/gocreating/seed.svg?branch=master)](https://travis-ci.org/gocreating/seed)
 
 A flexible and scalable suite for building modern websites, using nodejs with express.
